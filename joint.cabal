@@ -1,0 +1,16 @@
+name:                joint
+version:             0.1.0
+synopsis:            ...
+homepage:            https://github.com/iokasimov/joint
+license:             BSD3
+license-file:        LICENSE
+author:              Murat Kasimov
+maintainer:          Murat Kasimov <iokasimov.m@gmail.com>
+copyright:           Copyright (c) 2018 Murat Kasimov
+category:            Data, Control
+build-type:          Simple
+cabal-version:       >= 1.10
+
+source-repository head
+  type: git
+  location: https://github.com/iokasimov/joint.git
