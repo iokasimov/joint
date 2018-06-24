@@ -14,3 +14,10 @@ cabal-version:       >= 1.10
 source-repository head
   type: git
   location: https://github.com/iokasimov/joint.git
+
+library
+  exposed-modules: Data.Joint
+  build-depends: semigroupoids
+  default-language: Haskell2010
+  ghc-options: -fno-warn-tabs
+  default-extensions: NoImplicitPrelude, TypeOperators, GADTs
