@@ -23,7 +23,7 @@ library
     Control.Joint.Schemes
     Control.Joint.Schemes.TU
     Control.Joint.Schemes.UTU
-  build-depends: base
+  build-depends: base == 4.*
   default-language: Haskell2010
   ghc-options: -fno-warn-tabs
   default-extensions:
