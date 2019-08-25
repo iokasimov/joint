@@ -1,6 +1,6 @@
 name:                joint
 version:             0.1.0
-synopsis:            ...
+synopsis:            Trying to compose non-composable
 homepage:            https://github.com/iokasimov/joint
 license:             BSD3
 license-file:        LICENSE
@@ -19,6 +19,7 @@ library
   exposed-modules:
     Control.Joint.Core
     Control.Joint.Composition
+    Control.Joint.Transformer
     Control.Joint.Schemes
     Control.Joint.Schemes.TU
     Control.Joint.Schemes.UTU
@@ -29,4 +30,5 @@ library
     LiberalTypeSynonyms
     RankNTypes
     TypeFamilies
+    TypeFamilyDependencies
     TypeOperators
