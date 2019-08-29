@@ -1,4 +1,4 @@
-module Control.Joint.Transformer (Transformer (..)) where
+module Control.Joint.Transformer (Transformer (..), type (:>)) where
 
 import Control.Joint.Core (type (~>))
 import Control.Joint.Composition (Composition)

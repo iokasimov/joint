@@ -24,6 +24,7 @@ library
     Control.Joint.Schemes.TU
     Control.Joint.Schemes.UT
     Control.Joint.Schemes.UTU
+    Control.Joint.Base.Maybe
   build-depends: base == 4.*
   default-language: Haskell2010
   ghc-options: -fno-warn-tabs
