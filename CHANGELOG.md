@@ -6,3 +6,4 @@
 
 # 0.1.2
 * Define `Functor`/`Applicative`/`Monad` instances for transformers
+* Define `State` datatype with `get`, `modify` and `put` operations

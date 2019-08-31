@@ -27,6 +27,7 @@ library
     Control.Joint.Base.Maybe
     Control.Joint.Base.Either
     Control.Joint.Base.Reader
+    Control.Joint.Base.State
   build-depends: base == 4.*
   default-language: Haskell2010
   ghc-options: -fno-warn-tabs
