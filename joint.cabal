@@ -31,6 +31,7 @@ library
   default-language: Haskell2010
   ghc-options: -fno-warn-tabs
   default-extensions:
+    FlexibleInstances
     LiberalTypeSynonyms
     RankNTypes
     TypeFamilies

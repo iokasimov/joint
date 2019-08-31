@@ -12,3 +12,13 @@ instance Transformer Maybe where
 	type Schema Maybe u = UT Maybe u
 	lay x = UT $ Just <$> x
 	wrap x = UT . pure $ x
+
+instance Functor u => Functor (UT Maybe u) where
+	fmap f (UT x) = UT $ (fmap . fmap) f x
+
+instance Applicative u => Applicative (UT Maybe u) where
+	pure = UT . pure . pure
+	UT f <*> UT x = UT $ (<*>) <$> f <*> x
+
+instance (Applicative u, Monad u) => Monad (UT Maybe u) where
+	UT x >>= f = UT $ x >>= maybe (pure Nothing) (unwrap . f)
