@@ -23,7 +23,7 @@ library
     Control.Joint.Schemes
     Control.Joint.Schemes.TU
     Control.Joint.Schemes.UT
-    Control.Joint.Schemes.UTU
+    Control.Joint.Schemes.TUT
     Control.Joint.Base.Maybe
     Control.Joint.Base.Either
     Control.Joint.Base.Reader
@@ -35,6 +35,7 @@ library
     FlexibleInstances
     LiberalTypeSynonyms
     RankNTypes
+    TupleSections
     TypeFamilies
     TypeFamilyDependencies
     TypeOperators

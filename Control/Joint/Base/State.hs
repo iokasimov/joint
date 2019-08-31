@@ -3,7 +3,7 @@ module Control.Joint.Base.State where
 import Control.Joint.Core (type (:.), type (:=))
 import Control.Joint.Composition (Composition (Primary, unwrap))
 import Control.Joint.Transformer (Transformer (Schema, lay, wrap))
-import Control.Joint.Schemes.UTU (UTU (UTU))
+import Control.Joint.Schemes.TUT (TUT (TUT))
 
 newtype State s a = State ((->) s :. (,) s := a)
 
@@ -22,6 +22,15 @@ instance Applicative (State s) where
 instance Monad (State s) where
 	State x >>= f = State $ \old ->
 		uncurry statefully $ f <$> x old
+
+instance Composition (State s) where
+	type Primary (State s) a = (->) s :. (,) s := a
+	unwrap (State x) = x
+
+instance Transformer (State s) where
+	type Schema (State s) u = TUT ((->) s) u ((,) s)
+	lay x = TUT $ \s -> (s,) <$> x
+	wrap x = TUT $ pure <$> unwrap x
 
 get :: State s s
 get = State $ \s -> (s, s)
