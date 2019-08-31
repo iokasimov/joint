@@ -32,6 +32,16 @@ instance Transformer (State s) where
 	lay x = TUT $ \s -> (s,) <$> x
 	wrap x = TUT $ pure <$> unwrap x
 
+instance Functor u => Functor (TUT ((->) s) u ((,) s)) where
+	fmap f (TUT x) = TUT $ \old -> (fmap . fmap) f $ x old
+
+instance Monad u => Applicative (TUT ((->) s) u ((,) s)) where
+	pure x = TUT $ \s -> pure (s, x)
+	TUT f <*> TUT x = TUT $ \old -> f old >>= \(new, g) -> (fmap . fmap) g $ x new
+
+instance Monad u => Monad (TUT ((->) s) u ((,) s)) where
+	TUT x >>= f = TUT $ \old -> x old >>= \(new, y) -> ($ new) . unwrap . f $ y
+
 get :: State s s
 get = State $ \s -> (s, s)
 
