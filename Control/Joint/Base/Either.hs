@@ -1,7 +1,7 @@
 module Control.Joint.Base.Either where
 
-import Control.Joint.Composition (Composition (Primary, unwrap))
-import Control.Joint.Transformer (Transformer (Schema, lay, wrap))
+import Control.Joint.Composition (Composition (Primary, run))
+import Control.Joint.Transformer (Transformer (Schema, embed, build))
 import Control.Joint.Schemes.UT (UT (UT))
 
 instance Functor u => Functor (UT (Either e) u) where
@@ -12,13 +12,13 @@ instance Applicative u => Applicative (UT (Either e) u) where
 	UT f <*> UT x = UT $ (<*>) <$> f <*> x
 
 instance (Applicative u, Monad u) => Monad (UT (Either e) u) where
-	UT x >>= f = UT $ x >>= either (pure . Left) (unwrap . f)
+	UT x >>= f = UT $ x >>= either (pure . Left) (run . f)
 
 instance Composition (Either e) where
 	type Primary (Either e) a = Either e a
-	unwrap x = x
+	run x = x
 
 instance Transformer (Either e) where
 	type Schema (Either e) u = UT (Either e) u
-	lay x = UT $ Right <$> x
-	wrap x = UT . pure $ x
+	embed x = UT $ Right <$> x
+	build x = UT . pure $ x

@@ -1,7 +1,7 @@
 module Control.Joint.Base.Reader where
 
-import Control.Joint.Composition (Composition (Primary, unwrap))
-import Control.Joint.Transformer (Transformer (Schema, lay, wrap))
+import Control.Joint.Composition (Composition (Primary, run))
+import Control.Joint.Transformer (Transformer (Schema, embed, build))
 import Control.Joint.Schemes.TU (TU (TU))
 
 newtype Reader e a = Reader (e -> a)
@@ -14,13 +14,13 @@ instance Applicative u => Applicative (TU ((->) e) u) where
 	TU f <*> TU x = TU $ \r -> f r <*> x r
 
 instance (Applicative u, Monad u) => Monad (TU ((->) e) u) where
-	TU x >>= f = TU $ \e -> x e >>= ($ e) . unwrap . f
+	TU x >>= f = TU $ \e -> x e >>= ($ e) . run . f
 
 instance Composition (Reader e) where
 	type Primary (Reader e) a = (->) e a
-	unwrap (Reader x) = x
+	run (Reader x) = x
 
 instance Transformer (Reader e) where
 	type Schema (Reader e) u = TU ((->) e) u
-	lay x = TU . const $ x
-	wrap x = TU $ pure <$> unwrap x
+	embed x = TU . const $ x
+	build x = TU $ pure <$> run x
