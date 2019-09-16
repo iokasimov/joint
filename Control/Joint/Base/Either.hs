@@ -1,7 +1,7 @@
 module Control.Joint.Base.Either where
 
 import Control.Joint.Composition (Composition (Primary, run))
-import Control.Joint.Transformer (Transformer (Schema, embed, build))
+import Control.Joint.Transformer (Transformer (Schema, embed, build, unite))
 import Control.Joint.Schemes.UT (UT (UT))
 
 instance Functor u => Functor (UT (Either e) u) where
@@ -22,3 +22,4 @@ instance Transformer (Either e) where
 	type Schema (Either e) u = UT (Either e) u
 	embed x = UT $ Right <$> x
 	build x = UT . pure $ x
+	unite = UT

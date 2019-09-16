@@ -1,7 +1,7 @@
 module Control.Joint.Base.Maybe where
 
 import Control.Joint.Composition (Composition (Primary, run))
-import Control.Joint.Transformer (Transformer (Schema, embed, build))
+import Control.Joint.Transformer (Transformer (Schema, embed, build, unite))
 import Control.Joint.Schemes.UT (UT (UT))
 
 instance Functor u => Functor (UT Maybe u) where
@@ -22,3 +22,4 @@ instance Transformer Maybe where
 	type Schema Maybe u = UT Maybe u
 	embed x = UT $ Just <$> x
 	build x = UT . pure $ x
+	unite = UT

@@ -2,7 +2,7 @@ module Control.Joint.Base.State where
 
 import Control.Joint.Core (type (:.), type (:=))
 import Control.Joint.Composition (Composition (Primary, run))
-import Control.Joint.Transformer (Transformer (Schema, embed, build))
+import Control.Joint.Transformer (Transformer (Schema, embed, build, unite))
 import Control.Joint.Schemes.TUT (TUT (TUT))
 
 newtype State s a = State ((->) s :. (,) s := a)
@@ -31,6 +31,7 @@ instance Transformer (State s) where
 	type Schema (State s) u = TUT ((->) s) u ((,) s)
 	embed x = TUT $ \s -> (s,) <$> x
 	build x = TUT $ pure <$> run x
+	unite = TUT
 
 instance Functor u => Functor (TUT ((->) s) u ((,) s)) where
 	fmap f (TUT x) = TUT $ \old -> (fmap . fmap) f $ x old

@@ -9,3 +9,6 @@
 * Define `State` datatype with `get`, `modify` and `put` operations
 * Rename and fix `UTU` joint scheme to `TUT`
 * Renaming: `unwrap` -> `run`, `wrap` -> `build`, `lay` -> `embed`
+
+# 0.1.3
+* Define `unite` method to convert composition to transformer
