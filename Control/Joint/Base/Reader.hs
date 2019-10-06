@@ -8,7 +8,7 @@ newtype Reader e a = Reader (e -> a)
 
 instance Functor u => Functor (TU ((->) e) u) where
 	fmap f (TU x) = TU $ \r -> f <$> x r
---
+
 instance Applicative u => Applicative (TU ((->) e) u) where
 	pure = TU . pure . pure
 	TU f <*> TU x = TU $ \r -> f r <*> x r
