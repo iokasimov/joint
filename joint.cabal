@@ -20,6 +20,7 @@ library
     Control.Joint.Core
     Control.Joint.Composition
     Control.Joint.Transformer
+    Control.Joint.Modulator
     Control.Joint.Schemes
     Control.Joint.Schemes.TU
     Control.Joint.Schemes.UT

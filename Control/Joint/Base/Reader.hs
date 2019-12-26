@@ -2,6 +2,7 @@ module Control.Joint.Base.Reader where
 
 import Control.Joint.Composition (Composition (Primary, run))
 import Control.Joint.Transformer (Transformer (Schema, embed, build, unite))
+import Control.Joint.Modulator (Modulator ((-<$>-)))
 import Control.Joint.Schemes.TU (TU (TU))
 
 newtype Reader e a = Reader (e -> a)
@@ -25,3 +26,7 @@ instance Transformer (Reader e) where
 	embed x = TU . const $ x
 	build x = TU $ pure <$> run x
 	unite = TU
+	-- f -<$>- (TU x) = TU $ f <$> x
+
+instance Modulator (Reader e) where
+	f -<$>- (TU x) = TU $ f <$> x
