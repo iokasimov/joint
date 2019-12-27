@@ -26,7 +26,9 @@ instance Transformer (Reader e) where
 	embed x = TU . const $ x
 	build x = TU $ pure <$> run x
 	unite = TU
-	-- f -<$>- (TU x) = TU $ f <$> x
 
 instance Modulator (Reader e) where
 	f -<$>- (TU x) = TU $ f <$> x
+
+ask :: Reader e e
+ask = Reader $ \e -> e

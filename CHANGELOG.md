@@ -13,3 +13,4 @@
 # 0.1.3
 * Define `unite` method to convert composition to transformer
 * Define `Modulator` class to map function over inner effects
+* Add `ask` operation for `Reader` effect
