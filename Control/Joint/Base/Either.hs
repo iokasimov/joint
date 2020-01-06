@@ -2,6 +2,9 @@ module Control.Joint.Base.Either where
 
 import Control.Joint.Composition (Composition (Primary, run))
 import Control.Joint.Transformer (Transformer (Schema, embed, build, unite))
+import Control.Joint.Liftable (Liftable (lift))
+import Control.Joint.Schemes.TU (TU (TU))
+import Control.Joint.Schemes.TUT (TUT (TUT))
 import Control.Joint.Schemes.UT (UT (UT))
 
 instance Functor u => Functor (UT (Either e) u) where
@@ -23,3 +26,12 @@ instance Transformer (Either e) where
 	embed x = UT $ Right <$> x
 	build x = UT . pure $ x
 	unite = UT
+
+instance Applicative u => Liftable (Either e) (UT (Either e) u) where
+	lift = UT . pure
+
+instance Liftable (Either e) u => Liftable (Either e) (TU t u) where
+	lift = lift
+
+instance Liftable (Either e) u => Liftable (Either e) (TUT t u t') where
+	lift = lift

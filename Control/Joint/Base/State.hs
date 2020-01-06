@@ -3,7 +3,10 @@ module Control.Joint.Base.State where
 import Control.Joint.Core (type (:.), type (:=))
 import Control.Joint.Composition (Composition (Primary, run))
 import Control.Joint.Transformer (Transformer (Schema, embed, build, unite))
+import Control.Joint.Liftable (Liftable (lift))
+import Control.Joint.Schemes.TU (TU (TU))
 import Control.Joint.Schemes.TUT (TUT (TUT))
+import Control.Joint.Schemes.UT (UT (UT))
 
 newtype State s a = State ((->) s :. (,) s := a)
 
@@ -51,3 +54,12 @@ modify f = State $ \s -> (f s, ())
 
 put :: s -> State s ()
 put s = State $ \_ -> (s, ())
+
+instance Applicative u => Liftable (State s) (TUT ((->) s) u ((,) s)) where
+	lift (State x) = TUT $ pure <$> x
+
+instance Liftable (State s) u => Liftable (State s) (TU t u) where
+	lift = lift
+
+instance Liftable (State s) u => Liftable (State s) (UT t u) where
+	lift = lift

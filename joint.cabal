@@ -21,6 +21,7 @@ library
     Control.Joint.Composition
     Control.Joint.Transformer
     Control.Joint.Modulator
+    Control.Joint.Liftable
     Control.Joint.Schemes
     Control.Joint.Schemes.TU
     Control.Joint.Schemes.UT
@@ -33,8 +34,10 @@ library
   default-language: Haskell2010
   ghc-options: -fno-warn-tabs
   default-extensions:
+    FlexibleContexts
     FlexibleInstances
     LiberalTypeSynonyms
+    MultiParamTypeClasses
     RankNTypes
     TupleSections
     TypeFamilies

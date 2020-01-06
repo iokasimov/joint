@@ -2,6 +2,9 @@ module Control.Joint.Base.Maybe where
 
 import Control.Joint.Composition (Composition (Primary, run))
 import Control.Joint.Transformer (Transformer (Schema, embed, build, unite))
+import Control.Joint.Liftable (Liftable (lift))
+import Control.Joint.Schemes.TU (TU (TU))
+import Control.Joint.Schemes.TUT (TUT (TUT))
 import Control.Joint.Schemes.UT (UT (UT))
 
 instance Functor u => Functor (UT Maybe u) where
@@ -23,3 +26,12 @@ instance Transformer Maybe where
 	embed x = UT $ Just <$> x
 	build x = UT . pure $ x
 	unite = UT
+
+instance Applicative u => Liftable Maybe (UT Maybe u) where
+	lift = UT . pure
+
+instance Liftable Maybe u => Liftable Maybe (TU t u) where
+	lift = lift
+
+instance Liftable Maybe u => Liftable Maybe (TUT t u t') where
+	lift = lift

@@ -3,9 +3,22 @@ module Control.Joint.Base.Configured where
 import Control.Joint.Composition (Composition (Primary, run))
 import Control.Joint.Transformer (Transformer (Schema, embed, build, unite))
 import Control.Joint.Modulator (Modulator ((-<$>-)))
+import Control.Joint.Liftable (Liftable (lift))
 import Control.Joint.Schemes.TU (TU (TU))
+import Control.Joint.Schemes.TUT (TUT (TUT))
+import Control.Joint.Schemes.UT (UT (UT))
 
 newtype Configured e a = Configured (e -> a)
+
+instance Functor (Configured e) where
+	fmap f (Configured g) = Configured (f . g)
+
+instance Applicative (Configured e) where
+	pure = Configured . const
+	Configured f <*> Configured g = Configured $ \e -> f e (g e)
+
+instance Monad (Configured e) where
+	Configured g >>= f = Configured $ \e -> run (f (g e)) e
 
 instance Functor u => Functor (TU ((->) e) u) where
 	fmap f (TU x) = TU $ \r -> f <$> x r
@@ -32,3 +45,12 @@ instance Modulator (Configured e) where
 
 ask :: Configured e e
 ask = Configured $ \e -> e
+
+instance Applicative u => Liftable (Configured e) (TU (Configured e) u) where
+	lift x = TU $ pure <$> x
+
+instance Liftable (Configured e) u => Liftable (Configured e) (UT t u) where
+	lift = lift
+
+instance Liftable (Configured e) u => Liftable (Configured e) (TUT t u t') where
+	lift = lift

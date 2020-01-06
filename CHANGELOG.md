@@ -15,3 +15,6 @@
 * Define `Modulator` class to map function over inner effects
 * Rename `Reader` datatype to `Configured`
 * Add `ask` operation for `Configured` effect
+
+# 0.1.4
+* Define `Liftable` class to lift many effects in schemes and other effects
