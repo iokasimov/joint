@@ -46,11 +46,11 @@ instance Modulator (Reader e) where
 ask :: Reader e e
 ask = Reader $ \e -> e
 
-instance Liftable u t => Liftable u (TU (Reader e) t) where
+instance Liftable u t => Liftable u (TU ((->) e) t) where
 	lift = lift
 
-instance Applicative u => Liftable (Reader e) (TU (Reader e) u) where
-	lift x = TU $ pure <$> x
+instance Applicative u => Liftable (Reader e) (TU ((->) e) u) where
+	lift (Reader x) = TU $ pure <$> x
 
 instance Liftable (Reader e) t => Liftable (Reader e) (TU t u) where
 	lift = lift
