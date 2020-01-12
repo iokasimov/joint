@@ -58,4 +58,7 @@ instance Liftable (Reader e) u => Liftable (Reader e) (UT t u) where
 instance Liftable (Reader e) u => Liftable (Reader e) (TUT t u t') where
 	lift = lift
 
+instance Liftable (Reader e) ((->) e) where
+	lift (Reader f) = f
+
 type Configured e = Liftable (Reader e)
