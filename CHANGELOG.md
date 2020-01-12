@@ -19,3 +19,4 @@
 # 0.1.4
 * Define `Liftable` class to lift many effects in schemes and other effects
 * Create `Abilities` and `Effects` umbrella modules
+* Rename `Configured` datatype back to `Reader`
