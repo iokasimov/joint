@@ -27,6 +27,9 @@ instance Transformer (Either e) where
 	build x = UT . pure $ x
 	unite = UT
 
+instance Liftable t u => Liftable t (UT (Either e) u) where
+	lift = lift
+
 instance Applicative u => Liftable (Either e) (UT (Either e) u) where
 	lift = UT . pure
 

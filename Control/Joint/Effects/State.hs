@@ -56,6 +56,9 @@ modify f = State $ \s -> (f s, ())
 put :: s -> State s ()
 put s = State $ \_ -> (s, ())
 
+instance Liftable u t => Liftable u (TUT ((->) s) t ((,) s)) where
+	lift = lift
+
 instance Applicative u => Liftable (State s) (TUT ((->) s) u ((,) s)) where
 	lift (State x) = TUT $ pure <$> x
 
