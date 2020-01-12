@@ -30,8 +30,13 @@ instance Transformer Maybe where
 instance Applicative u => Liftable Maybe (UT Maybe u) where
 	lift = UT . pure
 
+instance Liftable Maybe t => Liftable Maybe (UT t u) where
+	lift = lift
+
 instance Liftable Maybe u => Liftable Maybe (TU t u) where
 	lift = lift
 
 instance Liftable Maybe u => Liftable Maybe (TUT t u t') where
 	lift = lift
+
+type Optional t = Liftable Maybe

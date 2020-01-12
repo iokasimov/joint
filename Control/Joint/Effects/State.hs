@@ -7,6 +7,7 @@ import Control.Joint.Abilities.Liftable (Liftable (lift))
 import Control.Joint.Schemes.TU (TU (TU))
 import Control.Joint.Schemes.TUT (TUT (TUT))
 import Control.Joint.Schemes.UT (UT (UT))
+import Control.Joint.Effects.Reader (Reader (Reader))
 
 newtype State s a = State ((->) s :. (,) s := a)
 
@@ -58,8 +59,16 @@ put s = State $ \_ -> (s, ())
 instance Applicative u => Liftable (State s) (TUT ((->) s) u ((,) s)) where
 	lift (State x) = TUT $ pure <$> x
 
+instance Liftable (State s) u => Liftable (State s) (TUT t u t') where
+	lift = lift
+
 instance Liftable (State s) u => Liftable (State s) (TU t u) where
 	lift = lift
 
 instance Liftable (State s) u => Liftable (State s) (UT t u) where
 	lift = lift
+
+instance Liftable (Reader e) (State e) where
+	lift (Reader f) = State (\e -> (e, f e))
+
+type Stateful e t = Liftable (State e)

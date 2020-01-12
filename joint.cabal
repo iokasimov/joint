@@ -36,6 +36,7 @@ library
   default-language: Haskell2010
   ghc-options: -fno-warn-tabs
   default-extensions:
+    ConstraintKinds
     FlexibleContexts
     FlexibleInstances
     LiberalTypeSynonyms

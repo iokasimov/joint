@@ -49,8 +49,13 @@ ask = Reader $ \e -> e
 instance Applicative u => Liftable (Reader e) (TU (Reader e) u) where
 	lift x = TU $ pure <$> x
 
+instance Liftable (Reader e) t => Liftable (Reader e) (TU t u) where
+	lift = lift
+
 instance Liftable (Reader e) u => Liftable (Reader e) (UT t u) where
 	lift = lift
 
 instance Liftable (Reader e) u => Liftable (Reader e) (TUT t u t') where
 	lift = lift
+
+type Configured e t = Liftable (Reader e)
