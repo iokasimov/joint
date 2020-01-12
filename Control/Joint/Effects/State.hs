@@ -71,4 +71,4 @@ instance Liftable (State s) u => Liftable (State s) (UT t u) where
 instance Liftable (Reader e) (State e) where
 	lift (Reader f) = State (\e -> (e, f e))
 
-type Stateful e t = Liftable (State e)
+type Stateful e = Liftable (State e)

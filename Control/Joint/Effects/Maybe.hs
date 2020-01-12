@@ -39,4 +39,4 @@ instance Liftable Maybe u => Liftable Maybe (TU t u) where
 instance Liftable Maybe u => Liftable Maybe (TUT t u t') where
 	lift = lift
 
-type Optional t = Liftable Maybe
+type Optional = Liftable Maybe
