@@ -1,9 +1,9 @@
-module Control.Joint.Base.Configured where
+module Control.Joint.Effects.Configured where
 
-import Control.Joint.Composition (Composition (Primary, run))
-import Control.Joint.Transformer (Transformer (Schema, embed, build, unite))
-import Control.Joint.Modulator (Modulator ((-<$>-)))
-import Control.Joint.Liftable (Liftable (lift))
+import Control.Joint.Abilities.Composition (Composition (Primary, run))
+import Control.Joint.Abilities.Transformer (Transformer (Schema, embed, build, unite))
+import Control.Joint.Abilities.Modulator (Modulator ((-<$>-)))
+import Control.Joint.Abilities.Liftable (Liftable (lift))
 import Control.Joint.Schemes.TU (TU (TU))
 import Control.Joint.Schemes.TUT (TUT (TUT))
 import Control.Joint.Schemes.UT (UT (UT))

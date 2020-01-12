@@ -18,18 +18,20 @@ source-repository head
 library
   exposed-modules:
     Control.Joint.Core
-    Control.Joint.Composition
-    Control.Joint.Transformer
-    Control.Joint.Modulator
-    Control.Joint.Liftable
+    Control.Joint.Abilities
+    Control.Joint.Abilities.Composition
+    Control.Joint.Abilities.Transformer
+    Control.Joint.Abilities.Modulator
+    Control.Joint.Abilities.Liftable
     Control.Joint.Schemes
     Control.Joint.Schemes.TU
     Control.Joint.Schemes.UT
     Control.Joint.Schemes.TUT
-    Control.Joint.Base.Configured
-    Control.Joint.Base.Maybe
-    Control.Joint.Base.Either
-    Control.Joint.Base.State
+    Control.Joint.Effects
+    Control.Joint.Effects.Configured
+    Control.Joint.Effects.Maybe
+    Control.Joint.Effects.Either
+    Control.Joint.Effects.State
   build-depends: base == 4.*
   default-language: Haskell2010
   ghc-options: -fno-warn-tabs

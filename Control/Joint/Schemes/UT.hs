@@ -1,7 +1,7 @@
 module Control.Joint.Schemes.UT (UT (..)) where
 
 import Control.Joint.Core (type (:.), type (:=))
-import Control.Joint.Composition (Composition (Primary, run))
+import Control.Joint.Abilities.Composition (Composition (Primary, run))
 
 newtype UT t u a = UT (u :. t := a)
 

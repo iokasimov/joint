@@ -1,6 +1,6 @@
-module Control.Joint.Modulator where
+module Control.Joint.Abilities.Modulator where
 
-import Control.Joint.Transformer (Transformer (Schema))
+import Control.Joint.Abilities.Transformer (Transformer (Schema))
 
 class Transformer t => Modulator t where
 	{-# MINIMAL (-<$>-) #-}

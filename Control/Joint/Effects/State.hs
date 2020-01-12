@@ -1,9 +1,9 @@
-module Control.Joint.Base.State where
+module Control.Joint.Effects.State where
 
 import Control.Joint.Core (type (:.), type (:=))
-import Control.Joint.Composition (Composition (Primary, run))
-import Control.Joint.Transformer (Transformer (Schema, embed, build, unite))
-import Control.Joint.Liftable (Liftable (lift))
+import Control.Joint.Abilities.Composition (Composition (Primary, run))
+import Control.Joint.Abilities.Transformer (Transformer (Schema, embed, build, unite))
+import Control.Joint.Abilities.Liftable (Liftable (lift))
 import Control.Joint.Schemes.TU (TU (TU))
 import Control.Joint.Schemes.TUT (TUT (TUT))
 import Control.Joint.Schemes.UT (UT (UT))

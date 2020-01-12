@@ -1,4 +1,4 @@
-module Control.Joint.Composition (Composition (..)) where
+module Control.Joint.Abilities.Composition (Composition (..)) where
 
 class Composition t where
 	{-# MINIMAL run #-}

@@ -1,7 +1,7 @@
-module Control.Joint.Transformer (Transformer (..), type (:>)) where
+module Control.Joint.Abilities.Transformer (Transformer (..), type (:>)) where
 
 import Control.Joint.Core (type (~>))
-import Control.Joint.Composition (Composition (Primary))
+import Control.Joint.Abilities.Composition (Composition (Primary))
 
 class Composition t => Transformer t where
 	{-# MINIMAL embed, build, unite #-}
