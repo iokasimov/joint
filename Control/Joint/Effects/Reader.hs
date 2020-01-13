@@ -46,10 +46,13 @@ instance Modulator (Reader e) where
 ask :: Reader e e
 ask = Reader $ \e -> e
 
-instance Applicative u => Liftable (Reader e) (TU ((->) e) u) where
-	lift (Reader x) = TU $ pure <$> x
-
 instance Liftable (Reader e) ((->) e) where
-	lift (Reader f) = f
+	lift = run
+
+instance Applicative u => Liftable (Reader e) (TU ((->) e) u) where
+	lift = build
+
+instance Functor u => Liftable u (TU ((->) e) u) where
+	lift = embed
 
 type Configured e = Liftable (Reader e)

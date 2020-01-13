@@ -56,20 +56,11 @@ modify f = State $ \s -> (f s, ())
 put :: s -> State s ()
 put s = State $ \_ -> (s, ())
 
-instance Liftable u t => Liftable u (TUT ((->) s) t ((,) s)) where
-	lift = lift
-
 instance Applicative u => Liftable (State s) (TUT ((->) s) u ((,) s)) where
-	lift (State x) = TUT $ pure <$> x
+	lift = build
 
-instance Liftable (State s) u => Liftable (State s) (TUT t u t') where
-	lift = lift
-
-instance Liftable (State s) u => Liftable (State s) (TU t u) where
-	lift = lift
-
-instance Liftable (State s) u => Liftable (State s) (UT t u) where
-	lift = lift
+instance Functor u => Liftable u (TUT ((->) s) u ((,) s)) where
+	lift = embed
 
 instance Liftable (Reader e) (State e) where
 	lift (Reader f) = State (\e -> (e, f e))
