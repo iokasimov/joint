@@ -27,10 +27,4 @@ instance Transformer Maybe where
 	build x = UT . pure $ x
 	unite = UT
 
-instance Applicative u => Liftable Maybe (UT Maybe u) where
-	lift = build
-
-instance Functor u => Liftable u (UT Maybe u) where
-	lift = embed
-
 type Optional = Liftable Maybe

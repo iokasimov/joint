@@ -1,7 +1,7 @@
 module Control.Joint.Core where
 
-infixr 1 :.
-infixr 0 :=
+infixr 2 :.
+infixr 1 :=
 infixr 0 ~>
 
 -- | Functor composition

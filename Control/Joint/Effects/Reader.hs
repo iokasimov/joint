@@ -49,22 +49,4 @@ ask = Reader $ \e -> e
 instance Liftable (Reader e) ((->) e) where
 	lift = run
 
-instance Applicative u => Liftable (Reader e) (TU ((->) e) u) where
-	lift = build
-
-instance Functor u => Liftable u (TU ((->) e) u) where
-	lift = embed
-
 type Configured e = Liftable (Reader e)
-
-instance (Functor (TU t u), Liftable v u, Liftable v (TU t u))
-	=> Liftable v (TU ((->) e) (TU t u)) where
-		lift = embed . lift
-
-instance (Functor (UT t u), Liftable v t, Liftable v (UT t u))
-	=> Liftable v (TU ((->) e) (UT t u)) where
-		lift = embed . lift
-
-instance (Functor (TUT t u t'), Liftable v u, Liftable v (TUT t u t'))
-	=> Liftable v (TU ((->) e) (TUT t u t')) where
-		lift = embed . lift

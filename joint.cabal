@@ -37,6 +37,7 @@ library
   ghc-options: -fno-warn-tabs
   default-extensions:
     ConstraintKinds
+    ExistentialQuantification
     FlexibleContexts
     FlexibleInstances
     LiberalTypeSynonyms
@@ -47,4 +48,4 @@ library
     TypeFamilyDependencies
     TypeOperators
     QuantifiedConstraints
-    -- UndecidableInstances
+    UndecidableInstances
