@@ -1,7 +1,7 @@
 module Control.Joint.Abilities.Transformer (Transformer (..), (:>) (..)) where
 
 import Control.Joint.Core (type (~>))
-import Control.Joint.Abilities.Composition (Composition (Primary))
+import Control.Joint.Abilities.Composition (Composition (Primary, run))
 
 class Composition t => Transformer t where
 	{-# MINIMAL embed, build, unite #-}
@@ -12,6 +12,10 @@ class Composition t => Transformer t where
 
 infixr 0 :>
 data (:>) t u a = T { trans :: Transformer t => (Schema t u a) }
+
+instance (Composition (Schema t u), Transformer t) => Composition (t :> u) where
+	type Primary (t :> u) a = Primary (Schema t u) a
+	run (T x) = run x
 
 instance Functor (Schema t u) => Functor (t :> u) where
 	fmap f (T x) = T $ f <$> x
