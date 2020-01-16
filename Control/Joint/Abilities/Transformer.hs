@@ -11,7 +11,7 @@ class Composition t => Transformer t where
 	unite :: Primary (Schema t u) a -> Schema t u a
 
 infixr 0 :>
-data (:>) t u a = T { trans :: Transformer t => (Schema t u a) }
+newtype (:>) t u a = T { trans :: Transformer t => (Schema t u a) }
 
 instance (Composition (Schema t u), Transformer t) => Composition (t :> u) where
 	type Primary (t :> u) a = Primary (Schema t u) a

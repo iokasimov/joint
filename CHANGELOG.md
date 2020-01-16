@@ -21,3 +21,4 @@
 * Create `Abilities` and `Effects` umbrella modules
 * Rename `Configured` datatype back to `Reader`
 * Define `Failable`, `Optional`, `Configured` and `Stateful` constraints
+* Convert `:>` to a newtype
