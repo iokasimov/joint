@@ -2,7 +2,8 @@ module Control.Joint.Effects.Maybe where
 
 import Control.Joint.Abilities.Composition (Composition (Primary, run))
 import Control.Joint.Abilities.Transformer (Transformer (Schema, embed, build, unite))
-import Control.Joint.Abilities.Liftable (Liftable (lift))
+import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
+import Control.Joint.Abilities.Liftable (Liftable)
 import Control.Joint.Schemes.TU (TU (TU))
 import Control.Joint.Schemes.TUT (TUT (TUT))
 import Control.Joint.Schemes.UT (UT (UT))
@@ -26,5 +27,8 @@ instance Transformer Maybe where
 	embed x = UT $ Just <$> x
 	build x = UT . pure $ x
 	unite = UT
+
+instance Adaptable (Either e) Maybe where
+	adapt = either (const Nothing) Just
 
 type Optional = Liftable Maybe

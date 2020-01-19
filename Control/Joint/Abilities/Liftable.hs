@@ -1,9 +1,10 @@
 module Control.Joint.Abilities.Liftable where
 
+import Control.Joint.Core (type (~>))
 import Control.Joint.Abilities.Transformer (Transformer (Schema, build, embed), (:>) (T))
 
 class Liftable (eff :: * -> *) (schema :: * -> *) where
-	lift :: eff a -> schema a
+	lift :: eff ~> schema
 
 instance (Functor u, Transformer t) => Liftable u (t :> u) where
 	lift = T . embed

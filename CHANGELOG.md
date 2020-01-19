@@ -22,3 +22,6 @@
 * Rename `Configured` datatype back to `Reader`
 * Define `Failable`, `Optional`, `Configured` and `Stateful` constraints
 * Convert `:>` to a newtype
+
+# 0.1.5
+* Create `Adaptable` class to transform some effect to others

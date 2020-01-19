@@ -3,7 +3,8 @@ module Control.Joint.Effects.State where
 import Control.Joint.Core (type (:.), type (:=))
 import Control.Joint.Abilities.Composition (Composition (Primary, run))
 import Control.Joint.Abilities.Transformer (Transformer (Schema, embed, build, unite))
-import Control.Joint.Abilities.Liftable (Liftable (lift))
+import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
+import Control.Joint.Abilities.Liftable (Liftable)
 import Control.Joint.Schemes.TU (TU (TU))
 import Control.Joint.Schemes.TUT (TUT (TUT))
 import Control.Joint.Schemes.UT (UT (UT))
@@ -56,7 +57,7 @@ modify f = State $ \s -> (f s, ())
 put :: s -> State s ()
 put s = State $ \_ -> (s, ())
 
-instance Liftable (Reader e) (State e) where
-	lift (Reader f) = State (\e -> (e, f e))
+instance Adaptable (Reader e) (State e) where
+	adapt (Reader f) = State (\e -> (e, f e))
 
 type Stateful e = Liftable (State e)
