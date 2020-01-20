@@ -48,9 +48,6 @@ instance Monad u => Applicative (TUT ((->) s) u ((,) s)) where
 instance Monad u => Monad (TUT ((->) s) u ((,) s)) where
 	TUT x >>= f = TUT $ \old -> x old >>= \(new, y) -> ($ new) . run . f $ y
 
-get :: State s s
-get = State $ \s -> (s, s)
-
 modify :: (s -> s) -> State s ()
 modify f = State $ \s -> (f s, ())
 

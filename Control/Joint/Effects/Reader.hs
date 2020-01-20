@@ -43,7 +43,7 @@ instance Transformer (Reader e) where
 instance Modulator (Reader e) where
 	f -<$>- (TU x) = TU $ f <$> x
 
-ask :: Reader e e
-ask = Reader $ \e -> e
+get :: Reader e e
+get = Reader $ \e -> e
 
 type Configured e = Liftable (Reader e)
