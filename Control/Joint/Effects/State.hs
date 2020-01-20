@@ -9,6 +9,7 @@ import Control.Joint.Schemes.TU (TU (TU))
 import Control.Joint.Schemes.TUT (TUT (TUT))
 import Control.Joint.Schemes.UT (UT (UT))
 import Control.Joint.Effects.Reader (Reader (Reader))
+import Control.Joint.Effects.Writer (Writer (Writer))
 
 newtype State s a = State ((->) s :. (,) s := a)
 
@@ -51,10 +52,10 @@ instance Monad u => Monad (TUT ((->) s) u ((,) s)) where
 modify :: (s -> s) -> State s ()
 modify f = State $ \s -> (f s, ())
 
-put :: s -> State s ()
-put s = State $ \_ -> (s, ())
-
 instance Adaptable (Reader e) (State e) where
 	adapt (Reader f) = State (\e -> (e, f e))
+
+instance Adaptable (Writer e) (State e) where
+	adapt (Writer (e, x)) = State (\e -> (e, x))
 
 type Stateful e = Liftable (State e)

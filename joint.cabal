@@ -29,10 +29,11 @@ library
     Control.Joint.Schemes.UT
     Control.Joint.Schemes.TUT
     Control.Joint.Effects
+    Control.Joint.Effects.Reader
+    Control.Joint.Effects.Writer
+    Control.Joint.Effects.State
     Control.Joint.Effects.Maybe
     Control.Joint.Effects.Either
-    Control.Joint.Effects.State
-    Control.Joint.Effects.Reader
   build-depends: base == 4.*
   default-language: Haskell2010
   ghc-options: -fno-warn-tabs

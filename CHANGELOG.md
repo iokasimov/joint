@@ -24,4 +24,5 @@
 * Convert `:>` to a newtype
 
 # 0.1.5
-* Create `Adaptable` class to transform some effect to others
+* Define `Adaptable` class to transform some effect to others
+* Define `Writer` datatype and move `put` from `State` to `Writer`
