@@ -1,12 +1,8 @@
 module Control.Joint.Effects.Writer where
 
-import Control.Joint.Abilities.Composition (Composition (Primary, run))
-import Control.Joint.Abilities.Transformer (Transformer (Schema, embed, build, unite))
-import Control.Joint.Abilities.Modulator (Modulator ((-<$>-)))
-import Control.Joint.Abilities.Liftable (Liftable (lift))
-import Control.Joint.Schemes.TU (TU (TU))
-import Control.Joint.Schemes.TUT (TUT (TUT))
-import Control.Joint.Schemes.UT (UT (UT))
+import Control.Joint.Abilities (Composition (Primary, run)
+	, Transformer (Schema, embed, build, unite), Liftable)
+import Control.Joint.Schemes (UT (UT))
 
 newtype Writer e a = Writer (e, a)
 

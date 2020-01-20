@@ -1,13 +1,9 @@
 module Control.Joint.Effects.State where
 
 import Control.Joint.Core (type (:.), type (:=))
-import Control.Joint.Abilities.Composition (Composition (Primary, run))
-import Control.Joint.Abilities.Transformer (Transformer (Schema, embed, build, unite))
-import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
-import Control.Joint.Abilities.Liftable (Liftable)
-import Control.Joint.Schemes.TU (TU (TU))
-import Control.Joint.Schemes.TUT (TUT (TUT))
-import Control.Joint.Schemes.UT (UT (UT))
+import Control.Joint.Abilities (Composition (Primary, run)
+	, Transformer (Schema, embed, build, unite), Adaptable (adapt), Liftable)
+import Control.Joint.Schemes (TUT (TUT))
 import Control.Joint.Effects.Reader (Reader (Reader))
 import Control.Joint.Effects.Writer (Writer (Writer))
 

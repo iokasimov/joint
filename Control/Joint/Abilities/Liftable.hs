@@ -4,6 +4,7 @@ import Control.Joint.Core (type (~>))
 import Control.Joint.Abilities.Transformer (Transformer (Schema, build, embed), (:>) (T))
 
 class Liftable (eff :: * -> *) (schema :: * -> *) where
+	{-# MINIMAL lift #-}
 	lift :: eff ~> schema
 
 instance (Functor u, Transformer t) => Liftable u (t :> u) where
