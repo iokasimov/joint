@@ -46,7 +46,4 @@ instance Modulator (Reader e) where
 ask :: Reader e e
 ask = Reader $ \e -> e
 
-instance Liftable (Reader e) ((->) e) where
-	lift = run
-
 type Configured e = Liftable (Reader e)

@@ -41,6 +41,7 @@ library
     ExistentialQuantification
     FlexibleContexts
     FlexibleInstances
+    FunctionalDependencies
     LiberalTypeSynonyms
     MultiParamTypeClasses
     RankNTypes
