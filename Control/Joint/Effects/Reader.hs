@@ -2,7 +2,7 @@ module Control.Joint.Effects.Reader where
 
 import Control.Joint.Abilities (Composition (Primary, run)
 	, Transformer (Schema, embed, build, unite), Liftable)
-import Control.Joint.Abilities.Modulator (Modulator ((-<$>-)))
+-- import Control.Joint.Abilities.Modulator (Modulator ((-<$>-)))
 import Control.Joint.Schemes (TU (TU))
 
 newtype Reader e a = Reader (e -> a)
@@ -36,9 +36,6 @@ instance Applicative u => Applicative (TU ((->) e) u) where
 
 instance (Applicative u, Monad u) => Monad (TU ((->) e) u) where
 	TU x >>= f = TU $ \e -> x e >>= ($ e) . run . f
-
-instance Modulator (Reader e) where
-	f -<$>- (TU x) = TU $ f <$> x
 
 get :: Reader e e
 get = Reader $ \e -> e

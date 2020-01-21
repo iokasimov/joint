@@ -26,3 +26,5 @@
 # 0.1.5
 * Define `Adaptable` class to transform some effect to others
 * Define `Writer` datatype and move `put` from `State` to `Writer`
+* Rename `ask` to `get` and move it to `Reader` effect
+* Add `failure` operation for `Either` effect

@@ -24,4 +24,7 @@ instance Applicative u => Applicative (UT (Either e) u) where
 instance (Applicative u, Monad u) => Monad (UT (Either e) u) where
 	UT x >>= f = UT $ x >>= either (pure . Left) (run . f)
 
+failure :: e -> Either e a
+failure = Left
+
 type Failable e = Liftable (Either e)
