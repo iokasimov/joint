@@ -7,63 +7,136 @@ class Liftable (eff :: * -> *) (schema :: * -> *) where
 	{-# MINIMAL lift #-}
 	lift :: eff ~> schema
 
-instance (Functor u, Transformer t) => Liftable u (t :> u) where
+type Embedding t u = (Transformer t, Functor u)
+type Building t u = (Transformer t, Applicative u)
+
+instance Embedding t u => Liftable u (t :> u) where
 	lift = T . embed
 
-instance (Applicative u, Transformer t) => Liftable t (t :> u) where
+instance Building t u => Liftable t (t :> u) where
 	lift = T . build
 
-instance (Functor (Schema u v), Applicative v, Transformer u, Transformer t)
-	=> Liftable u (t :> u :> v) where
+instance
+	( Embedding t (Schema u v)
+	, Building u v
+	) => Liftable u (t :> u :> v) where
 	lift = T . embed . T . build
 
-instance (Functor (Schema u v), Functor v, Transformer u, Transformer t)
-	=> Liftable v (t :> u :> v) where
+instance
+	( Embedding t (Schema u v)
+	, Embedding u v
+	) => Liftable v (t :> u :> v) where
 	lift = T . embed . T . embed
 
-instance (Functor (Schema u v), Functor (Schema v w), Functor (Schema u (v :> w))
-	, Applicative v, Applicative w, Transformer u, Transformer t, Transformer v)
-		=> Liftable v (t :> u :> v :> w) where
+instance
+	( Embedding t (Schema u (v :> w))
+	, Embedding u (Schema v w)
+	, Building v w
+	) => Liftable v (t :> u :> v :> w) where
 	lift = T . embed . T . embed . T . build
 
-instance (Functor (Schema u v), Functor (Schema v w), Functor (Schema u (v :> w))
-	, Applicative v, Functor w, Transformer t, Transformer u, Transformer v)
-		=> Liftable w (t :> u :> v :> w) where
+instance
+	( Embedding t (Schema u v)
+	, Embedding t (Schema u (v :> w))
+	, Embedding u (Schema v w)
+	, Embedding v w
+	) => Liftable w (t :> u :> v :> w) where
 	lift = T . embed . T . embed . T . embed
 
-instance (Functor (Schema u (v :> w :> x)), Functor (Schema v (w :> x)), Functor (Schema w x)
-	, Functor x, Transformer t, Transformer u, Transformer v, Transformer w)
-		=> Liftable x (t :> u :> v :> w :> x) where
+instance (Embedding t (Schema u (v :> w :> x))
+	, Embedding u (Schema v (w :> x))
+	, Embedding v (Schema w x)
+	, Embedding w x
+	) => Liftable x (t :> u :> v :> w :> x) where
 	lift = T . embed . T . embed . T . embed . T . embed
 
-instance (Functor (Schema u (v :> w :> x)), Functor (Schema v (w :> x)), Functor (Schema w x)
-	, Applicative x, Transformer t, Transformer u, Transformer v, Transformer w)
-		=> Liftable w (t :> u :> v :> w :> x) where
+instance (Embedding t (Schema u (v :> w :> x))
+	, Embedding u (Schema v (w :> x))
+	, Embedding v (Schema w x)
+	, Building w x
+	) => Liftable w (t :> u :> v :> w :> x) where
 	lift = T . embed . T . embed . T . embed . T . build
 
-instance (Functor (Schema u (v :> w :> x)), Functor (Schema v (w :> x)), Functor (Schema w x), Functor (Schema x y)
-	, Functor (Schema w (x :> y)), Functor (Schema v (w :> x :> y)), Functor (Schema u (v :> w :> x :> y))
-		, Functor y, Transformer t, Transformer u, Transformer v, Transformer w, Transformer x)
-			=> Liftable y (t :> u :> v :> w :> x :> y) where
+instance
+	( Embedding t (Schema u (v :> w :> x :> y))
+	, Embedding u (Schema v (w :> x :> y))
+	, Embedding v (Schema w (x :> y))
+	, Embedding w (Schema x y)
+	, Embedding x y
+	) => Liftable y (t :> u :> v :> w :> x :> y) where
 	lift = T . embed . T . embed . T . embed . T . embed . T . embed
 
-instance (Functor (Schema u (v :> w :> x)), Functor (Schema v (w :> x)), Functor (Schema w x)
-	, Functor (Schema x y), Functor (Schema w (x :> y)), Functor (Schema v (w :> x :> y))
-		, Functor (Schema u (v :> w :> x :> y)), Functor y
-		, Applicative y, Transformer t, Transformer u, Transformer v, Transformer w, Transformer x)
-			=> Liftable x (t :> u :> v :> w :> x :> y) where
+instance
+	( Embedding t (Schema u (v :> w :> x :> y))
+	, Embedding u (Schema v (w :> x :> y))
+	, Embedding v (Schema w (x :> y))
+	, Embedding w (Schema x y)
+	, Building x y
+	) => Liftable x (t :> u :> v :> w :> x :> y) where
 	lift = T . embed . T . embed . T . embed . T . embed . T . build
 
-instance (Functor (Schema u (v :> w :> x :> y :> z)), Functor (Schema v (w :> x :> y :> z))
-	, Functor (Schema w (x :> y :> z)), Functor (Schema x (y :> z)), Functor (Schema y z)
-		, Functor z, Transformer t, Transformer u, Transformer v
-			, Transformer w, Transformer x, Transformer z, Transformer y)
-				=> Liftable z (t :> u :> v :> w :> x :> y :> z) where
+instance
+	( Embedding t (Schema u (v :> w :> x :> y :> z))
+	, Embedding u (Schema v (w :> x :> y :> z))
+	, Embedding v (Schema w (x :> y :> z))
+	, Embedding w (Schema x (y :> z))
+	, Embedding x (Schema y z)
+	, Embedding y z
+	) => Liftable z (t :> u :> v :> w :> x :> y :> z) where
 	lift = T . embed . T . embed . T . embed . T . embed . T . embed . T . embed
 
-instance (Functor (Schema u (v :> w :> x :> y :> z)), Functor (Schema v (w :> x :> y :> z))
-	, Functor (Schema w (x :> y :> z)), Functor (Schema x (y :> z)), Functor (Schema y z)
-		, Applicative z, Transformer t, Transformer u, Transformer v
-			, Transformer w, Transformer x, Transformer z, Transformer y)
-				=> Liftable y (t :> u :> v :> w :> x :> y :> z) where
+instance
+	( Embedding t (Schema u (v :> w :> x :> y :> z))
+	, Embedding u (Schema v (w :> x :> y :> z))
+	, Embedding v (Schema w (x :> y :> z))
+	, Embedding w (Schema x (y :> z))
+	, Embedding x (Schema y z)
+	, Building y z
+	) => Liftable y (t :> u :> v :> w :> x :> y :> z) where
 	lift = T . embed . T . embed . T . embed . T . embed . T . embed . T . build
+
+instance
+	( Embedding t (Schema u (v :> w :> x :> y :> z :> f))
+	, Embedding u (Schema v (w :> x :> y :> z :> f))
+	, Embedding v (Schema w (x :> y :> z :> f))
+	, Embedding w (Schema x (y :> z :> f))
+	, Embedding x (Schema y (z :> f))
+	, Embedding y (Schema z f)
+	, Embedding z f
+	) => Liftable f (t :> u :> v :> w :> x :> y :> z :> f) where
+	lift = T . embed . T . embed . T . embed . T . embed . T . embed . T . embed . T . embed
+
+instance
+	( Embedding t (Schema u (v :> w :> x :> y :> z :> f))
+	, Embedding u (Schema v (w :> x :> y :> z :> f))
+	, Embedding v (Schema w (x :> y :> z :> f))
+	, Embedding w (Schema x (y :> z :> f))
+	, Embedding x (Schema y (z :> f))
+	, Embedding y (Schema z f)
+	, Building z f
+	) => Liftable z (t :> u :> v :> w :> x :> y :> z :> f) where
+	lift = T . embed . T . embed . T . embed . T . embed . T . embed . T . embed . T . build
+
+instance
+	( Embedding t (Schema u (v :> w :> x :> y :> z :> f :> h))
+	, Embedding u (Schema v (w :> x :> y :> z :> f :> h))
+	, Embedding v (Schema w (x :> y :> z :> f :> h))
+	, Embedding w (Schema x (y :> z :> f :> h))
+	, Embedding x (Schema y (z :> f :> h))
+	, Embedding y (Schema z (f :> h))
+	, Embedding z (Schema f h)
+	, Embedding f h
+	) => Liftable h (t :> u :> v :> w :> x :> y :> z :> f :> h) where
+	lift = T . embed . T . embed . T . embed . T . embed . T . embed . T . embed . T . embed . T . embed
+
+instance
+	( Embedding t (Schema u (v :> w :> x :> y :> z :> f :> h))
+	, Embedding u (Schema v (w :> x :> y :> z :> f :> h))
+	, Embedding v (Schema w (x :> y :> z :> f :> h))
+	, Embedding w (Schema x (y :> z :> f :> h))
+	, Embedding x (Schema y (z :> f :> h))
+	, Embedding y (Schema z (f :> h))
+	, Embedding z (Schema f h)
+	, Building f h
+	) => Liftable f (t :> u :> v :> w :> x :> y :> z :> f :> h) where
+	lift = T . embed . T . embed . T . embed . T . embed . T . embed . T . embed . T . embed . T . build
