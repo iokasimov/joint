@@ -26,3 +26,9 @@ instance (Transformer t, Applicative (Schema t u)) => Applicative (t :> u) where
 
 instance (Transformer t, Monad (Schema t u)) => Monad (t :> u) where
 	T x >>= f = T $ x >>= trans . f
+
+instance (Composition (Schema t u), Transformer t) => Transformer ((:>) t u) where
+    type Schema (t :> u) v = t :> u :> v
+    embed = embed
+    build = build
+    unite = unite
