@@ -1,7 +1,7 @@
 module Control.Joint.Effects.Writer where
 
 import Control.Joint.Abilities (Composition (Primary, run)
-	, Transformer (Schema, embed, build, unite), Liftable)
+	, Transformer (Schema, embed, build, unite), (:>) (T), Liftable)
 import Control.Joint.Schemes (UT (UT))
 
 newtype Writer e a = Writer (e, a)
@@ -24,9 +24,9 @@ instance Composition (Writer e) where
 
 instance Monoid e => Transformer (Writer e) where
 	type Schema (Writer e) u = UT ((,) e) u
-	embed x = UT $ (,) mempty <$> x
-	build = UT . pure . run
-	unite = UT
+	embed x = T . UT $ (,) mempty <$> x
+	build = T . UT . pure . run
+	unite = T . UT
 
 instance Functor u => Functor (UT ((,) e) u) where
 	fmap f (UT x) = UT $ (fmap . fmap) f x

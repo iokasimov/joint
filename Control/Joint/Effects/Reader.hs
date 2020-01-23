@@ -1,8 +1,7 @@
 module Control.Joint.Effects.Reader where
 
 import Control.Joint.Abilities (Composition (Primary, run)
-	, Transformer (Schema, embed, build, unite), Liftable)
--- import Control.Joint.Abilities.Modulator (Modulator ((-<$>-)))
+	, Transformer (Schema, embed, build, unite), (:>) (T), Liftable)
 import Control.Joint.Schemes (TU (TU))
 
 newtype Reader e a = Reader (e -> a)
@@ -23,9 +22,9 @@ instance Composition (Reader e) where
 
 instance Transformer (Reader e) where
 	type Schema (Reader e) u = TU ((->) e) u
-	embed x = TU . const $ x
-	build x = TU $ pure <$> run x
-	unite = TU
+	embed x = T . TU . const $ x
+	build x = T. TU $ pure <$> run x
+	unite = T . TU
 
 instance Functor u => Functor (TU ((->) e) u) where
 	fmap f (TU x) = TU $ \r -> f <$> x r

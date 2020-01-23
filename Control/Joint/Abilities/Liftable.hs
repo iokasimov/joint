@@ -1,7 +1,8 @@
 module Control.Joint.Abilities.Liftable where
 
 import Control.Joint.Core (type (~>))
-import Control.Joint.Abilities.Transformer (Transformer (Schema, build, embed), (:>) (T))
+import Control.Joint.Abilities.Composition (Composition (run))
+import Control.Joint.Abilities.Transformer (Transformer (Schema, build, embed), (:>) (T, trans))
 
 class Liftable (eff :: * -> *) (schema :: * -> *) where
 	{-# MINIMAL lift #-}
@@ -11,29 +12,29 @@ type Embedding t u = (Transformer t, Functor u)
 type Building t u = (Transformer t, Applicative u)
 
 instance Embedding t u => Liftable u (t :> u) where
-	lift = T . embed
+	lift = embed
 
 instance Building t u => Liftable t (t :> u) where
-	lift = T . build
+	lift = build
 
 instance
 	( Embedding t (Schema u v)
 	, Building u v
 	) => Liftable u (t :> u :> v) where
-	lift = T . embed . T . build
+	lift = embed . build
 
 instance
 	( Embedding t (Schema u v)
 	, Embedding u v
 	) => Liftable v (t :> u :> v) where
-	lift = T . embed . T . embed
+	lift = embed . embed
 
 instance
 	( Embedding t (Schema u (v :> w))
 	, Embedding u (Schema v w)
 	, Building v w
 	) => Liftable v (t :> u :> v :> w) where
-	lift = T . embed . T . embed . T . build
+	lift = embed . embed . build
 
 instance
 	( Embedding t (Schema u v)
@@ -41,21 +42,21 @@ instance
 	, Embedding u (Schema v w)
 	, Embedding v w
 	) => Liftable w (t :> u :> v :> w) where
-	lift = T . embed . T . embed . T . embed
+	lift = embed . embed . embed
 
 instance (Embedding t (Schema u (v :> w :> x))
 	, Embedding u (Schema v (w :> x))
 	, Embedding v (Schema w x)
 	, Embedding w x
 	) => Liftable x (t :> u :> v :> w :> x) where
-	lift = T . embed . T . embed . T . embed . T . embed
+	lift = embed . embed . embed . embed
 
 instance (Embedding t (Schema u (v :> w :> x))
 	, Embedding u (Schema v (w :> x))
 	, Embedding v (Schema w x)
 	, Building w x
 	) => Liftable w (t :> u :> v :> w :> x) where
-	lift = T . embed . T . embed . T . embed . T . build
+	lift = embed . embed . embed . build
 
 instance
 	( Embedding t (Schema u (v :> w :> x :> y))
@@ -64,7 +65,7 @@ instance
 	, Embedding w (Schema x y)
 	, Embedding x y
 	) => Liftable y (t :> u :> v :> w :> x :> y) where
-	lift = T . embed . T . embed . T . embed . T . embed . T . embed
+	lift = embed . embed . embed . embed . embed
 
 instance
 	( Embedding t (Schema u (v :> w :> x :> y))
@@ -73,7 +74,7 @@ instance
 	, Embedding w (Schema x y)
 	, Building x y
 	) => Liftable x (t :> u :> v :> w :> x :> y) where
-	lift = T . embed . T . embed . T . embed . T . embed . T . build
+	lift = embed . embed . embed . embed . build
 
 instance
 	( Embedding t (Schema u (v :> w :> x :> y :> z))
@@ -83,7 +84,7 @@ instance
 	, Embedding x (Schema y z)
 	, Embedding y z
 	) => Liftable z (t :> u :> v :> w :> x :> y :> z) where
-	lift = T . embed . T . embed . T . embed . T . embed . T . embed . T . embed
+	lift = embed . embed . embed . embed . embed . embed
 
 instance
 	( Embedding t (Schema u (v :> w :> x :> y :> z))
@@ -93,7 +94,7 @@ instance
 	, Embedding x (Schema y z)
 	, Building y z
 	) => Liftable y (t :> u :> v :> w :> x :> y :> z) where
-	lift = T . embed . T . embed . T . embed . T . embed . T . embed . T . build
+	lift = embed . embed . embed . embed . embed . build
 
 instance
 	( Embedding t (Schema u (v :> w :> x :> y :> z :> f))
@@ -104,7 +105,7 @@ instance
 	, Embedding y (Schema z f)
 	, Embedding z f
 	) => Liftable f (t :> u :> v :> w :> x :> y :> z :> f) where
-	lift = T . embed . T . embed . T . embed . T . embed . T . embed . T . embed . T . embed
+	lift = embed . embed . embed . embed . embed . embed . embed
 
 instance
 	( Embedding t (Schema u (v :> w :> x :> y :> z :> f))
@@ -115,7 +116,7 @@ instance
 	, Embedding y (Schema z f)
 	, Building z f
 	) => Liftable z (t :> u :> v :> w :> x :> y :> z :> f) where
-	lift = T . embed . T . embed . T . embed . T . embed . T . embed . T . embed . T . build
+	lift = embed . embed . embed . embed . embed . embed . build
 
 instance
 	( Embedding t (Schema u (v :> w :> x :> y :> z :> f :> h))
@@ -127,7 +128,7 @@ instance
 	, Embedding z (Schema f h)
 	, Embedding f h
 	) => Liftable h (t :> u :> v :> w :> x :> y :> z :> f :> h) where
-	lift = T . embed . T . embed . T . embed . T . embed . T . embed . T . embed . T . embed . T . embed
+	lift = embed . embed . embed . embed . embed . embed . embed . embed
 
 instance
 	( Embedding t (Schema u (v :> w :> x :> y :> z :> f :> h))
@@ -139,4 +140,4 @@ instance
 	, Embedding z (Schema f h)
 	, Building f h
 	) => Liftable f (t :> u :> v :> w :> x :> y :> z :> f :> h) where
-	lift = T . embed . T . embed . T . embed . T . embed . T . embed . T . embed . T . embed . T . build
+	lift = embed . embed . embed . embed . embed . embed . embed . build

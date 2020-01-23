@@ -1,7 +1,7 @@
 module Control.Joint.Effects.Maybe where
 
 import Control.Joint.Abilities (Composition (Primary, run)
-	, Transformer (Schema, embed, build, unite), Adaptable (adapt), Liftable)
+	, Transformer (Schema, embed, build, unite), (:>) (T), Adaptable (adapt), Liftable)
 import Control.Joint.Schemes (UT (UT))
 
 instance Composition Maybe where
@@ -10,9 +10,9 @@ instance Composition Maybe where
 
 instance Transformer Maybe where
 	type Schema Maybe u = UT Maybe u
-	embed x = UT $ Just <$> x
-	build x = UT . pure $ x
-	unite = UT
+	embed x = T . UT $ Just <$> x
+	build x = T . UT . pure $ x
+	unite = T . UT
 
 instance Functor u => Functor (UT Maybe u) where
 	fmap f (UT x) = UT $ (fmap . fmap) f x

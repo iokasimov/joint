@@ -28,3 +28,4 @@
 * Define `Writer` datatype and move `put` from `State` to `Writer`
 * Rename `ask` to `get` and move it to `Reader` effect
 * Add `failure` operation for `Either` effect
+* Methods of `Transformer` class works on `:>` datatype

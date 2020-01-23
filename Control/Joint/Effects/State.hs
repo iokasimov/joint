@@ -2,7 +2,7 @@ module Control.Joint.Effects.State where
 
 import Control.Joint.Core (type (:.), type (:=))
 import Control.Joint.Abilities (Composition (Primary, run)
-	, Transformer (Schema, embed, build, unite), Adaptable (adapt), Liftable)
+	, Transformer (Schema, embed, build, unite), (:>) (T), Adaptable (adapt), Liftable)
 import Control.Joint.Schemes (TUT (TUT))
 import Control.Joint.Effects.Reader (Reader (Reader))
 import Control.Joint.Effects.Writer (Writer (Writer))
@@ -31,9 +31,9 @@ instance Composition (State s) where
 
 instance Transformer (State s) where
 	type Schema (State s) u = TUT ((->) s) u ((,) s)
-	embed x = TUT $ \s -> (s,) <$> x
-	build x = TUT $ pure <$> run x
-	unite = TUT
+	embed x = T . TUT $ \s -> (s,) <$> x
+	build x = T . TUT $ pure <$> run x
+	unite = T . TUT
 
 instance Functor u => Functor (TUT ((->) s) u ((,) s)) where
 	fmap f (TUT x) = TUT $ \old -> (fmap . fmap) f $ x old

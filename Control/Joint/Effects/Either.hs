@@ -1,7 +1,7 @@
 module Control.Joint.Effects.Either where
 
 import Control.Joint.Abilities (Composition (Primary, run)
-	, Transformer (Schema, embed, build, unite), Liftable)
+	, Transformer (Schema, embed, build, unite), (:>) (T), Liftable)
 import Control.Joint.Schemes (UT (UT))
 
 instance Composition (Either e) where
@@ -10,9 +10,9 @@ instance Composition (Either e) where
 
 instance Transformer (Either e) where
 	type Schema (Either e) u = UT (Either e) u
-	embed x = UT $ Right <$> x
-	build x = UT . pure $ x
-	unite = UT
+	embed x = T . UT $ Right <$> x
+	build x = T . UT . pure $ x
+	unite = T . UT
 
 instance Functor u => Functor (UT (Either e) u) where
 	fmap f (UT x) = UT $ (fmap . fmap) f x
