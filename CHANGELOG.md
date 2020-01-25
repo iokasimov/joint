@@ -29,3 +29,4 @@
 * Rename `ask` to `get` and move it to `Reader` effect
 * Add `failure` operation for `Either` effect
 * Methods of `Transformer` class works on `:>` datatype
+* Remove `Modulator` module and class

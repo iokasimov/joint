@@ -21,7 +21,6 @@ library
     Control.Joint.Abilities
     Control.Joint.Abilities.Composition
     Control.Joint.Abilities.Transformer
-    Control.Joint.Abilities.Modulator
     Control.Joint.Abilities.Adaptable
     Control.Joint.Abilities.Liftable
     Control.Joint.Schemes
