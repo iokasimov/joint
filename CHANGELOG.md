@@ -30,3 +30,6 @@
 * Add `failure` operation for `Either` effect
 * Methods of `Transformer` class works on `:>` datatype
 * Remove `Modulator` module and class
+
+# 0.1.6
+* Lower precedence of `:>` operator to allow write like: `t :> u := a`

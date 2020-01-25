@@ -10,7 +10,7 @@ class Composition t => Transformer t where
 	build :: Applicative u => t ~> t :> u
 	unite :: Primary (Schema t u) a -> (t :> u) a
 
-infixr 0 :>
+infixr 3 :>
 newtype (:>) t u a = T { trans :: Transformer t => Schema t u a }
 
 instance Functor (Schema t u) => Functor (t :> u) where
