@@ -44,3 +44,22 @@ let xy' = run xy _ :: State _ :> Either _ :> Maybe := _
 let xy'' = run xy' _ :: Either _ :> Maybe := _
 let xy''' = run xy'' :: Maybe (Either _) _
 ```
+
+## Effects adaptation
+
+Adaptation means that some effects can be replaced by more powerful ones. For example, `Reader` and `Writer` effects can bu used in `State` because `State` can read and write, so it can modify stored value.
+
+```haskell
+lift put :: Accumulated _ t => t _
+lift get :: Configured _ t => t _
+(lift . adapt $ put) :: Stateful _ t => t _
+(lift . adapt $ get) :: Stateful _ t => t _
+```
+
+So you can adapt `Failable` to `Optional` but we lost error information:
+
+```haskell
+(lift $ Just _) :: Optional t => t _
+(lift $ failure _) :: Failable _ t => t _
+(lift . adapt $ failure _) :: Optional t => t _
+```
