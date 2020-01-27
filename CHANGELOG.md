@@ -33,3 +33,4 @@
 
 # 0.1.6
 * Lower precedence of `:>` operator to allow write like: `t :> u := a`
+* Create supermodule to have only one line of import in projects

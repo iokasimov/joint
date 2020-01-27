@@ -17,6 +17,7 @@ source-repository head
 
 library
   exposed-modules:
+    Control.Joint
     Control.Joint.Core
     Control.Joint.Abilities
     Control.Joint.Abilities.Composition
