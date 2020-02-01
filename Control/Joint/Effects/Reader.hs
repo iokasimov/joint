@@ -1,6 +1,6 @@
 module Control.Joint.Effects.Reader where
 
-import Control.Joint.Abilities (Composition (Primary, run)
+import Control.Joint.Abilities (Interpreted (Primary, run)
 	, Transformer (Schema, embed, build, unite), (:>) (T), Liftable)
 import Control.Joint.Schemes (TU (TU))
 
@@ -16,7 +16,7 @@ instance Applicative (Reader e) where
 instance Monad (Reader e) where
 	Reader g >>= f = Reader $ \e -> run (f (g e)) e
 
-instance Composition (Reader e) where
+instance Interpreted (Reader e) where
 	type Primary (Reader e) a = (->) e a
 	run (Reader x) = x
 

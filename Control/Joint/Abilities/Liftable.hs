@@ -1,7 +1,7 @@
 module Control.Joint.Abilities.Liftable where
 
 import Control.Joint.Core (type (~>))
-import Control.Joint.Abilities.Composition (Composition (run))
+import Control.Joint.Abilities.Interpreted (Interpreted (run))
 import Control.Joint.Abilities.Transformer (Transformer (Schema, build, embed), (:>) (T, trans))
 
 class Liftable (eff :: * -> *) (schema :: * -> *) where

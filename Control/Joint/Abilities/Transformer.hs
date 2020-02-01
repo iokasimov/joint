@@ -1,9 +1,9 @@
 module Control.Joint.Abilities.Transformer (Transformer (..), (:>) (..)) where
 
 import Control.Joint.Core (type (~>))
-import Control.Joint.Abilities.Composition (Composition (Primary, run))
+import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 
-class Composition t => Transformer t where
+class Interpreted t => Transformer t where
 	{-# MINIMAL embed, build, unite #-}
 	type Schema (t :: * -> *) (u :: * -> *) = (r :: * -> *) | r -> t u
 	embed :: Functor u => u ~> t :> u
@@ -23,6 +23,6 @@ instance (Transformer t, Applicative (Schema t u)) => Applicative (t :> u) where
 instance (Transformer t, Monad (Schema t u)) => Monad (t :> u) where
 	T x >>= f = T $ x >>= trans . f
 
-instance (Composition (Schema t u), Transformer t) => Composition (t :> u) where
+instance (Interpreted (Schema t u), Transformer t) => Interpreted (t :> u) where
 	type Primary (t :> u) a = Primary (Schema t u) a
 	run (T x) = run x

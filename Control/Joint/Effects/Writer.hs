@@ -1,6 +1,6 @@
 module Control.Joint.Effects.Writer where
 
-import Control.Joint.Abilities (Composition (Primary, run)
+import Control.Joint.Abilities (Interpreted (Primary, run)
 	, Transformer (Schema, embed, build, unite), (:>) (T), Liftable)
 import Control.Joint.Schemes (UT (UT))
 
@@ -18,7 +18,7 @@ instance Monoid e => Monad (Writer e) where
 	Writer (e, x) >>= f = let (e', b) = run $ f x in
 		Writer (e <> e', b)
 
-instance Composition (Writer e) where
+instance Interpreted (Writer e) where
 	type Primary (Writer e) a = (e, a)
 	run (Writer x) = x
 

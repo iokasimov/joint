@@ -1,7 +1,7 @@
 module Control.Joint.Effects.State where
 
 import Control.Joint.Core (type (:.), type (:=))
-import Control.Joint.Abilities (Composition (Primary, run)
+import Control.Joint.Abilities (Interpreted (Primary, run)
 	, Transformer (Schema, embed, build, unite), (:>) (T), Adaptable (adapt), Liftable)
 import Control.Joint.Schemes (TUT (TUT))
 import Control.Joint.Effects.Reader (Reader (Reader))
@@ -25,7 +25,7 @@ instance Monad (State s) where
 	State x >>= f = State $ \old ->
 		uncurry statefully $ f <$> x old
 
-instance Composition (State s) where
+instance Interpreted (State s) where
 	type Primary (State s) a = (->) s :. (,) s := a
 	run (State x) = x
 

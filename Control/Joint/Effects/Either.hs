@@ -1,10 +1,10 @@
 module Control.Joint.Effects.Either where
 
-import Control.Joint.Abilities (Composition (Primary, run)
+import Control.Joint.Abilities (Interpreted (Primary, run)
 	, Transformer (Schema, embed, build, unite), (:>) (T), Liftable)
 import Control.Joint.Schemes (UT (UT))
 
-instance Composition (Either e) where
+instance Interpreted (Either e) where
 	type Primary (Either e) a = Either e a
 	run x = x
 

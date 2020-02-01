@@ -1,10 +1,10 @@
 module Control.Joint.Effects.Maybe where
 
-import Control.Joint.Abilities (Composition (Primary, run)
+import Control.Joint.Abilities (Interpreted (Primary, run)
 	, Transformer (Schema, embed, build, unite), (:>) (T), Adaptable (adapt), Liftable)
 import Control.Joint.Schemes (UT (UT))
 
-instance Composition Maybe where
+instance Interpreted Maybe where
 	type Primary Maybe a = Maybe a
 	run x = x
 
