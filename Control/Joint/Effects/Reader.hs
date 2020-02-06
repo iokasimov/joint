@@ -39,4 +39,7 @@ instance (Applicative u, Monad u) => Monad (TU ((->) e) u) where
 get :: Reader e e
 get = Reader $ \e -> e
 
+local :: (e -> i) -> Reader i a -> Reader e a
+local g (Reader f) = Reader (f . g)
+
 type Configured e = Liftable (Reader e)
