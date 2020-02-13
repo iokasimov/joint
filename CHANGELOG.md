@@ -36,3 +36,4 @@
 * Create supermodule to have only one line of import in projects
 * Rename `Composition` class to `Interpreted`
 * Add `local` operation for `Reader` effect
+* Rename `put` operation for `Writer` to `add`

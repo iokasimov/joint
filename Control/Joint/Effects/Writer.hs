@@ -38,7 +38,7 @@ instance (Monoid e, Applicative u) => Applicative (UT ((,) e) u) where
 instance (Monoid e, Applicative u, Monad u) => Monad (UT ((,) e) u) where
 	UT x >>= f = UT $ x >>= \(acc, v) -> (\(acc', y) -> (acc <> acc', y)) <$> run (f v)
 
-put :: e -> Writer e ()
-put s = Writer (s, ())
+add :: e -> Writer e ()
+add s = Writer (s, ())
 
 type Accumulated e t = Liftable (Writer e) t
