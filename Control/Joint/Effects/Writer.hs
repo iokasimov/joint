@@ -1,7 +1,8 @@
 module Control.Joint.Effects.Writer where
 
-import Control.Joint.Abilities (Interpreted (Primary, run)
-	, Transformer (Schema, embed, build, unite), (:>) (T), Liftable)
+import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
+import Control.Joint.Abilities.Transformer (Transformer (Schema, embed, build, unite), (:>) (T))
+import Control.Joint.Abilities.Liftable (Liftable (lift))
 import Control.Joint.Schemes (UT (UT))
 
 newtype Writer e a = Writer (e, a)
@@ -38,7 +39,7 @@ instance (Monoid e, Applicative u) => Applicative (UT ((,) e) u) where
 instance (Monoid e, Applicative u, Monad u) => Monad (UT ((,) e) u) where
 	UT x >>= f = UT $ x >>= \(acc, v) -> (\(acc', y) -> (acc <> acc', y)) <$> run (f v)
 
-add :: e -> Writer e ()
-add s = Writer (s, ())
-
 type Accumulated e t = Liftable (Writer e) t
+
+add :: Accumulated e t => e -> t ()
+add s = lift $ Writer (s, ())

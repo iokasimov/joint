@@ -1,7 +1,8 @@
 module Control.Joint.Effects.Either where
 
-import Control.Joint.Abilities (Interpreted (Primary, run)
-	, Transformer (Schema, embed, build, unite), (:>) (T), Liftable)
+import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
+import Control.Joint.Abilities.Transformer (Transformer (Schema, embed, build, unite), (:>) (T))
+import Control.Joint.Abilities.Liftable (Liftable (lift))
 import Control.Joint.Schemes (UT (UT))
 
 instance Interpreted (Either e) where
@@ -24,7 +25,7 @@ instance Applicative u => Applicative (UT (Either e) u) where
 instance (Applicative u, Monad u) => Monad (UT (Either e) u) where
 	UT x >>= f = UT $ x >>= either (pure . Left) (run . f)
 
-failure :: e -> Either e a
-failure = Left
-
 type Failable e = Liftable (Either e)
+
+failure :: Failable e t => e -> t a
+failure = lift . Left

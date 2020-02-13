@@ -37,3 +37,4 @@
 * Rename `Composition` class to `Interpreted`
 * Add `local` operation for `Reader` effect
 * Rename `put` operation for `Writer` to `add`
+* Add `nothing` operation for `Maybe` effect

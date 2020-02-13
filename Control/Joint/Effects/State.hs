@@ -1,8 +1,10 @@
 module Control.Joint.Effects.State where
 
 import Control.Joint.Core (type (:.), type (:=))
-import Control.Joint.Abilities (Interpreted (Primary, run)
-	, Transformer (Schema, embed, build, unite), (:>) (T), Adaptable (adapt), Liftable)
+import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
+import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
+import Control.Joint.Abilities.Transformer (Transformer (Schema, embed, build, unite), (:>) (T))
+import Control.Joint.Abilities.Liftable (Liftable (lift))
 import Control.Joint.Schemes (TUT (TUT))
 import Control.Joint.Effects.Reader (Reader (Reader))
 import Control.Joint.Effects.Writer (Writer (Writer))
@@ -45,9 +47,6 @@ instance Monad u => Applicative (TUT ((->) s) u ((,) s)) where
 instance Monad u => Monad (TUT ((->) s) u ((,) s)) where
 	TUT x >>= f = TUT $ \old -> x old >>= \(new, y) -> ($ new) . run . f $ y
 
-modify :: (s -> s) -> State s ()
-modify f = State $ \s -> (f s, ())
-
 instance Adaptable (Reader e) (State e) where
 	adapt (Reader f) = State (\e -> (e, f e))
 
@@ -55,3 +54,6 @@ instance Adaptable (Writer e) (State e) where
 	adapt (Writer (e, x)) = State (\e -> (e, x))
 
 type Stateful e = Liftable (State e)
+
+modify :: Stateful s t => (s -> s) -> t ()
+modify f = lift $ State $ \s -> (f s, ())

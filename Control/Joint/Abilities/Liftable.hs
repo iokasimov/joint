@@ -11,6 +11,9 @@ class Liftable (eff :: * -> *) (schema :: * -> *) where
 type Embedding t u = (Transformer t, Functor u)
 type Building t u = (Transformer t, Applicative u)
 
+instance Liftable t t where
+	lift = id
+
 instance Embedding t u => Liftable u (t :> u) where
 	lift = embed
 

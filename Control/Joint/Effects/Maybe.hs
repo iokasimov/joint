@@ -1,7 +1,9 @@
 module Control.Joint.Effects.Maybe where
 
-import Control.Joint.Abilities (Interpreted (Primary, run)
-	, Transformer (Schema, embed, build, unite), (:>) (T), Adaptable (adapt), Liftable)
+import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
+import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
+import Control.Joint.Abilities.Transformer (Transformer (Schema, embed, build, unite), (:>) (T))
+import Control.Joint.Abilities.Liftable (Liftable (lift))
 import Control.Joint.Schemes (UT (UT))
 
 instance Interpreted Maybe where
@@ -28,3 +30,6 @@ instance Adaptable (Either e) Maybe where
 	adapt = either (const Nothing) Just
 
 type Optional = Liftable Maybe
+
+nothing :: Optional t => t a
+nothing = lift Nothing
