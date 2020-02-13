@@ -57,3 +57,6 @@ type Stateful e = Liftable (State e)
 
 modify :: Stateful s t => (s -> s) -> t ()
 modify f = lift $ State $ \s -> (f s, ())
+
+current :: Stateful s t => t s
+current = lift $ State $ \s -> (s, s)
