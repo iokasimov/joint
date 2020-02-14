@@ -35,7 +35,7 @@
 * Lower precedence of `:>` operator to allow write like: `t :> u := a`
 * Create supermodule to have only one line of import in projects
 * Rename `Composition` class to `Interpreted`
-* Add `local` operation for `Reader` effect
 * Rename `put` operation for `Writer` to `add`
 * Add `nothing` operation for `Maybe` effect
 * Add `current` operation for `State` effect
+* Make `get`, `add`, `current`, `modify`, `nothing`, `failure` liftable

@@ -41,6 +41,3 @@ type Configured e = Liftable (Reader e)
 
 get :: Configured e t => t e
 get = lift $ Reader $ \e -> e
-
-local :: (e -> i) -> Reader i a -> Reader e a
-local g (Reader f) = Reader (f . g)
