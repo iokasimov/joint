@@ -1,6 +1,6 @@
 # Extremely simple effect system for Haskell
 
-[Blogpost about](https://iokasimov.github.io/posts/2019/10/joint) | [Hackage documentation](http://hackage.haskell.org/package/joint) | [Example with brackets](https://gist.github.com/iokasimov/e149804f8bf4cb807a1ff6c2ae6a383a)
+[Hackage documentation](http://hackage.haskell.org/package/joint) | [Examples](https://gist.github.com/iokasimov/experiments)
 
 ## Overview
 
@@ -11,9 +11,9 @@
 If you have some effectful expression, you can easy compose them:
 
 ```haskell
-let f = lift get :: Configured _ t => t _
-let g = lift Nothing :: Optional t => t _
-let h = lift (failure _) :: Failable _ t => t _
+let f = get :: Configured _ t => t _
+let g = nothing :: Optional t => t _
+let h = failure _ :: Failable _ t => t _
 
 let x = f *> g *> h :: (Applicative t, Configured _ t, Optional t, Failable _ t) => t _
 ```
@@ -43,23 +43,4 @@ let xy = x *> y :: Reader _ :> State _ :> Either _ :> Maybe := _
 let xy' = run xy _ :: State _ :> Either _ :> Maybe := _
 let xy'' = run xy' _ :: Either _ :> Maybe := _
 let xy''' = run xy'' :: Maybe (Either _) _
-```
-
-## Effects adaptation
-
-Adaptation means that some effects can be replaced by more powerful ones. For example, `Reader` and `Writer` effects can bu used in `State` because `State` can read and write, so it can modify stored value.
-
-```haskell
-lift put :: Accumulated _ t => t _
-lift get :: Configured _ t => t _
-(lift . adapt $ put) :: Stateful _ t => t _
-(lift . adapt $ get) :: Stateful _ t => t _
-```
-
-So you can adapt `Failable` to `Optional` but we lost error information:
-
-```haskell
-(lift $ Just _) :: Optional t => t _
-(lift $ failure _) :: Failable _ t => t _
-(lift . adapt $ failure _) :: Optional t => t _
 ```
