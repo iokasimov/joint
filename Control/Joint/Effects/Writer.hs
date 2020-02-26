@@ -1,5 +1,6 @@
 module Control.Joint.Effects.Writer where
 
+import Control.Joint.Operators ((<$$>), (<**>))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 import Control.Joint.Abilities.Transformer (Transformer (Schema, embed, build, unite), (:>) (T))
 import Control.Joint.Abilities.Liftable (Liftable (lift))
@@ -30,11 +31,11 @@ instance Monoid e => Transformer (Writer e) where
 	unite = T . UT
 
 instance Functor u => Functor (UT ((,) e) u) where
-	fmap f (UT x) = UT $ (fmap . fmap) f x
+	fmap f (UT x) = UT $ f <$$> x
 
 instance (Monoid e, Applicative u) => Applicative (UT ((,) e) u) where
 	pure = UT . pure . pure
-	UT f <*> UT x = UT $ (<*>) <$> f <*> x
+	UT f <*> UT x = UT $ f <**> x
 
 instance (Monoid e, Applicative u, Monad u) => Monad (UT ((,) e) u) where
 	UT x >>= f = UT $ x >>= \(acc, v) -> (\(acc', y) -> (acc <> acc', y)) <$> run (f v)

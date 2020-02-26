@@ -39,3 +39,6 @@
 * Add `nothing` operation for `Maybe` effect
 * Add `current` operation for `State` effect
 * Make `get`, `add`, `current`, `modify`, `nothing`, `failure` liftable
+
+# 0.1.7
+* Create `Operators` module to work with nested functor compositions

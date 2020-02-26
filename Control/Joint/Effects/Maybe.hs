@@ -1,5 +1,6 @@
 module Control.Joint.Effects.Maybe where
 
+import Control.Joint.Operators ((<$$>), (<**>))
 import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 import Control.Joint.Abilities.Transformer (Transformer (Schema, embed, build, unite), (:>) (T))
@@ -17,11 +18,11 @@ instance Transformer Maybe where
 	unite = T . UT
 
 instance Functor u => Functor (UT Maybe u) where
-	fmap f (UT x) = UT $ (fmap . fmap) f x
+	fmap f (UT x) = UT $ f <$$> x
 
 instance Applicative u => Applicative (UT Maybe u) where
 	pure = UT . pure . pure
-	UT f <*> UT x = UT $ (<*>) <$> f <*> x
+	UT f <*> UT x = UT $ f <**> x
 
 instance (Applicative u, Monad u) => Monad (UT Maybe u) where
 	UT x >>= f = UT $ x >>= maybe (pure Nothing) (run . f)

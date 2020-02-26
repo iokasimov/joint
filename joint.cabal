@@ -28,6 +28,7 @@ library
     Control.Joint.Schemes.TU
     Control.Joint.Schemes.UT
     Control.Joint.Schemes.TUT
+    Control.Joint.Operators
     Control.Joint.Effects
     Control.Joint.Effects.Reader
     Control.Joint.Effects.Writer

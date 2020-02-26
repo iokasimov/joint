@@ -1,5 +1,6 @@
 module Control.Joint.Effects.Reader where
 
+import Control.Joint.Operators ((<$$>), (<**>))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 import Control.Joint.Abilities.Transformer (Transformer (Schema, embed, build, unite), (:>) (T))
 import Control.Joint.Abilities.Liftable (Liftable (lift))
@@ -28,11 +29,11 @@ instance Transformer (Reader e) where
 	unite = T . TU
 
 instance Functor u => Functor (TU ((->) e) u) where
-	fmap f (TU x) = TU $ \r -> f <$> x r
+	fmap f (TU x) = TU $ f <$$> x
 
 instance Applicative u => Applicative (TU ((->) e) u) where
 	pure = TU . pure . pure
-	TU f <*> TU x = TU $ \r -> f r <*> x r
+	TU f <*> TU x = TU $ f <**> x
 
 instance (Applicative u, Monad u) => Monad (TU ((->) e) u) where
 	TU x >>= f = TU $ \e -> x e >>= ($ e) . run . f
@@ -40,4 +41,4 @@ instance (Applicative u, Monad u) => Monad (TU ((->) e) u) where
 type Configured e = Liftable (Reader e)
 
 get :: Configured e t => t e
-get = lift $ Reader $ \e -> e
+get = lift $ Reader id
