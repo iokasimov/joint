@@ -1,10 +1,23 @@
 # Extremely simple effect system for Haskell
 
-[Hackage documentation](http://hackage.haskell.org/package/joint) | [Examples](https://gist.github.com/iokasimov/experiments)
+[Hackage documentation](http://hackage.haskell.org/package/joint) | [Examples](https://github.com/iokasimov/experiments)
 
 ## Overview
 
 `joint` let you type expressions by effects that they produce. No free/freer monad, no GADTs and other fancy stuff - all you need is a functor composition. If you want to be able to use your on effect in this library you need to pick a `joint schema` and write several instances (`Functor`/`Applicative`/`Monad`).
+
+## Simple real world example
+
+Let’s imagine that we need to make an HTTP request, it’s `IO`, that can throw `HttpException`:
+
+```haskell
+import qualified "wreq" Network.Wreq as HTTP
+
+request :: (Monad t, Liftable IO t, Failable HttpException t) => t (Response ByteString)
+request = lift (try @HttpException $ HTTP.get link) >>= lift
+```
+
+Wow, what is there? First, we `lift` some `IO`-action, then after `>>=` we `lift` `Either` and we get an expression, that can be used in many effectful expressions than contain such two effects! We can delay using concrete transformers until we really need to evaluate them.
 
 ## Composing lifted effects
 
