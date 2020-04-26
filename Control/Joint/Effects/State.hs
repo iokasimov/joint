@@ -20,8 +20,7 @@ instance Functor (State s) where
 instance Applicative (State s) where
 	pure x = State $ \s -> (s, x)
 	State f <*> State x = State $ \old ->
-		let latest = fst . x $ old in
-			(latest, snd (f old) . snd . x $ old)
+		let (new, g) = f old in g <$> x new
 
 instance Monad (State s) where
 	State x >>= f = State $ \old ->
