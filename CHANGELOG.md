@@ -42,3 +42,4 @@
 
 # 0.1.7
 * Create `Operators` module to work with nested functor compositions
+* Add experimental `$>>=` and `>>=$` monadic operators
