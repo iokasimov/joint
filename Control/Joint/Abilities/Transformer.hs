@@ -1,5 +1,7 @@
 module Control.Joint.Abilities.Transformer (Transformer (..), (:>) (..)) where
 
+import Control.Applicative (Alternative (empty, (<|>)))
+
 import Control.Joint.Core (type (~>))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 
@@ -19,6 +21,10 @@ instance Functor (Schema t u) => Functor (t :> u) where
 instance (Transformer t, Applicative (Schema t u)) => Applicative (t :> u) where
 	pure = T . pure
 	T f <*> T x = T $ f <*> x
+
+instance (Transformer t, Alternative (Schema t u)) => Alternative (t :> u) where
+	empty = T empty
+	T f <|> T x = T $ f <|> x
 
 instance (Transformer t, Monad (Schema t u)) => Monad (t :> u) where
 	T x >>= f = T $ x >>= trans . f
