@@ -1,5 +1,7 @@
 module Control.Joint.Effects.State where
 
+import Control.Applicative (Alternative (empty, (<|>)))
+
 import Control.Joint.Core (type (:.), type (:=))
 import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
@@ -45,6 +47,10 @@ instance Monad u => Applicative (TUT ((->) s) u ((,) s)) where
 
 instance Monad u => Monad (TUT ((->) s) u ((,) s)) where
 	TUT x >>= f = TUT $ \old -> x old >>= \(new, y) -> ($ new) . run . f $ y
+
+instance (Alternative u, Monad u) => Alternative (TUT ((->) s) u ((,) s)) where
+	TUT x <|> TUT y = TUT $ \s -> x s <|> y s
+	empty = TUT $ \_ -> empty
 
 instance Adaptable (Reader e) (State e) where
 	adapt (Reader f) = State (\e -> (e, f e))
