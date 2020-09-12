@@ -65,3 +65,6 @@ modify f = lift $ State $ \s -> (f s, ())
 
 current :: Stateful s t => t s
 current = lift $ State $ \s -> (s, s)
+
+replace :: Stateful s t => s -> t ()
+replace new = lift $ State $ \_ -> (new, ())
