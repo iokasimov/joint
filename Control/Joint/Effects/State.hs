@@ -33,22 +33,22 @@ instance Interpreted (State s) where
 	run (State x) = x
 
 instance Transformer (State s) where
-	type Schema (State s) u = TUT ((->) s) u ((,) s)
+	type Schema (State s) u = TUT ((->) s) ((,) s) u
 	embed x = T . TUT $ \s -> (s,) <$> x
 	build x = T . TUT $ pure <$> run x
 	unite = T . TUT
 
-instance Functor u => Functor (TUT ((->) s) u ((,) s)) where
+instance Functor u => Functor (TUT ((->) s) ((,) s)  u) where
 	fmap f (TUT x) = TUT $ \old -> (fmap . fmap) f $ x old
 
-instance Monad u => Applicative (TUT ((->) s) u ((,) s)) where
+instance Monad u => Applicative (TUT ((->) s) ((,) s) u) where
 	pure x = TUT $ \s -> pure (s, x)
 	TUT f <*> TUT x = TUT $ \old -> f old >>= \(new, g) -> (fmap . fmap) g $ x new
 
-instance Monad u => Monad (TUT ((->) s) u ((,) s)) where
+instance Monad u => Monad (TUT ((->) s) ((,) s) u) where
 	TUT x >>= f = TUT $ \old -> x old >>= \(new, y) -> ($ new) . run . f $ y
 
-instance (Alternative u, Monad u) => Alternative (TUT ((->) s) u ((,) s)) where
+instance (Alternative u, Monad u) => Alternative (TUT ((->) s) ((,) s) u) where
 	TUT x <|> TUT y = TUT $ \s -> x s <|> y s
 	empty = TUT $ \_ -> empty
 

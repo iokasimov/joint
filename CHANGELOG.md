@@ -44,3 +44,4 @@
 * Create `Operators` module to work with nested functor compositions
 * Add experimental `$>>=` and `>>=$` monadic operators
 * Define `replace` method in `Effects.State` module
+* Change order of parameters in `TUT` newtype schema
