@@ -46,6 +46,7 @@ library
     FunctionalDependencies
     LiberalTypeSynonyms
     MultiParamTypeClasses
+    PackageImports
     RankNTypes
     TupleSections
     TypeFamilies
