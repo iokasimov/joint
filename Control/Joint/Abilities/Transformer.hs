@@ -7,7 +7,7 @@ import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 
 class Interpreted t => Transformer t where
 	{-# MINIMAL embed, build, unite #-}
-	type Schema (t :: * -> *) (u :: * -> *) = (r :: * -> *) | r -> t u
+	type Schema (t :: * -> *) = (r :: (* -> *) -> * -> *) | r -> t
 	embed :: Functor u => u ~> t :> u
 	build :: Applicative u => t ~> t :> u
 	unite :: Primary (Schema t u) a -> (t :> u) a

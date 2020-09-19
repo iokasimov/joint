@@ -45,3 +45,4 @@
 * Add experimental `$>>=` and `>>=$` monadic operators
 * Define `replace` method in `Effects.State` module
 * Change order of parameters in `TUT` newtype schema
+* Change arity of `Schema` associated type family

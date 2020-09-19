@@ -33,7 +33,7 @@ instance Interpreted (State s) where
 	run (State x) = x
 
 instance Transformer (State s) where
-	type Schema (State s) u = TUT ((->) s) ((,) s) u
+	type Schema (State s) = TUT ((->) s) ((,) s)
 	embed x = T . TUT $ \s -> (s,) <$> x
 	build x = T . TUT $ pure <$> run x
 	unite = T . TUT

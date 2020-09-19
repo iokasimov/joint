@@ -11,7 +11,7 @@ instance Interpreted (Either e) where
 	run x = x
 
 instance Transformer (Either e) where
-	type Schema (Either e) u = UT (Either e) u
+	type Schema (Either e) = UT (Either e)
 	embed x = T . UT $ Right <$> x
 	build x = T . UT . pure $ x
 	unite = T . UT

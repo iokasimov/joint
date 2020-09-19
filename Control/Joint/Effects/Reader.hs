@@ -23,7 +23,7 @@ instance Interpreted (Reader e) where
 	run (Reader x) = x
 
 instance Transformer (Reader e) where
-	type Schema (Reader e) u = TU ((->) e) u
+	type Schema (Reader e) = TU ((->) e)
 	embed x = T . TU . const $ x
 	build x = T. TU $ pure <$> run x
 	unite = T . TU

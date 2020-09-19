@@ -12,7 +12,7 @@ instance Interpreted Maybe where
 	run x = x
 
 instance Transformer Maybe where
-	type Schema Maybe u = UT Maybe u
+	type Schema Maybe = UT Maybe
 	embed x = T . UT $ Just <$> x
 	build x = T . UT . pure $ x
 	unite = T . UT

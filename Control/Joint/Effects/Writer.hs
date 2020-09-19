@@ -25,7 +25,7 @@ instance Interpreted (Writer e) where
 	run (Writer x) = x
 
 instance Monoid e => Transformer (Writer e) where
-	type Schema (Writer e) u = UT ((,) e) u
+	type Schema (Writer e) = UT ((,) e)
 	embed x = T . UT $ (,) mempty <$> x
 	build = T . UT . pure . run
 	unite = T . UT
