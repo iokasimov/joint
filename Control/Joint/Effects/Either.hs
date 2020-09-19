@@ -3,7 +3,7 @@ module Control.Joint.Effects.Either where
 import Control.Joint.Operators ((<$$>), (<**>))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 import Control.Joint.Abilities.Transformer (Transformer (Schema, embed, build, unite), (:>) (T))
-import Control.Joint.Abilities.Liftable (Liftable (lift))
+import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
 import Control.Joint.Schemes (UT (UT))
 
 instance Interpreted (Either e) where
@@ -26,7 +26,7 @@ instance Applicative u => Applicative (UT (Either e) u) where
 instance (Applicative u, Monad u) => Monad (UT (Either e) u) where
 	UT x >>= f = UT $ x >>= either (pure . Left) (run . f)
 
-type Failable e = Liftable (Either e)
+type Failable e = Adaptable (Either e)
 
 failure :: Failable e t => e -> t a
-failure = lift . Left
+failure = adapt . Left

@@ -23,7 +23,7 @@ library
     Control.Joint.Abilities.Interpreted
     Control.Joint.Abilities.Transformer
     Control.Joint.Abilities.Completable
-    Control.Joint.Abilities.Liftable
+    Control.Joint.Abilities.Adaptable
     Control.Joint.Schemes
     Control.Joint.Schemes.TU
     Control.Joint.Schemes.UT

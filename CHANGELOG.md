@@ -50,3 +50,4 @@
 
 # 0.1.8
 * Rename `Adaptable` class to `Completable` and `adapt` to `complete`
+* Rename `Liftable` class to `Adaptable` and `lift` to `adapt`

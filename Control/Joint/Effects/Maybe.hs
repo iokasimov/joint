@@ -4,7 +4,7 @@ import Control.Joint.Operators ((<$$>), (<**>))
 import Control.Joint.Abilities.Completable (Completable (complete))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 import Control.Joint.Abilities.Transformer (Transformer (Schema, embed, build, unite), (:>) (T))
-import Control.Joint.Abilities.Liftable (Liftable (lift))
+import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
 import Control.Joint.Schemes (UT (UT))
 
 instance Interpreted Maybe where
@@ -30,7 +30,7 @@ instance (Applicative u, Monad u) => Monad (UT Maybe u) where
 instance Completable (Either e) Maybe where
 	complete = either (const Nothing) Just
 
-type Optional = Liftable Maybe
+type Optional = Adaptable Maybe
 
 nothing :: Optional t => t a
-nothing = lift Nothing
+nothing = adapt Nothing

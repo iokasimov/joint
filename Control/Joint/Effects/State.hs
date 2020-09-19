@@ -6,7 +6,7 @@ import Control.Joint.Core (type (:.), type (:=))
 import Control.Joint.Abilities.Completable (Completable (complete))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 import Control.Joint.Abilities.Transformer (Transformer (Schema, embed, build, unite), (:>) (T))
-import Control.Joint.Abilities.Liftable (Liftable (lift))
+import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
 import Control.Joint.Schemes (TUT (TUT))
 import Control.Joint.Effects.Reader (Reader (Reader))
 import Control.Joint.Effects.Writer (Writer (Writer))
@@ -58,13 +58,13 @@ instance Completable (Reader e) (State e) where
 instance Completable (Writer e) (State e) where
 	complete (Writer (e, x)) = State (\e -> (e, x))
 
-type Stateful e = Liftable (State e)
+type Stateful e = Adaptable (State e)
 
 modify :: Stateful s t => (s -> s) -> t ()
-modify f = lift $ State $ \s -> (f s, ())
+modify f = adapt $ State $ \s -> (f s, ())
 
 current :: Stateful s t => t s
-current = lift $ State $ \s -> (s, s)
+current = adapt $ State $ \s -> (s, s)
 
 replace :: Stateful s t => s -> t ()
-replace new = lift $ State $ \_ -> (new, ())
+replace new = adapt $ State $ \_ -> (new, ())

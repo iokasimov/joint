@@ -3,7 +3,7 @@ module Control.Joint.Effects.Reader where
 import Control.Joint.Operators ((<$$>), (<**>))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 import Control.Joint.Abilities.Transformer (Transformer (Schema, embed, build, unite), (:>) (T))
-import Control.Joint.Abilities.Liftable (Liftable (lift))
+import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
 import Control.Joint.Schemes (TU (TU))
 
 newtype Reader e a = Reader (e -> a)
@@ -38,7 +38,7 @@ instance Applicative u => Applicative (TU ((->) e) u) where
 instance (Applicative u, Monad u) => Monad (TU ((->) e) u) where
 	TU x >>= f = TU $ \e -> x e >>= ($ e) . run . f
 
-type Configured e = Liftable (Reader e)
+type Configured e = Adaptable (Reader e)
 
 get :: Configured e t => t e
-get = lift $ Reader id
+get = adapt $ Reader id
