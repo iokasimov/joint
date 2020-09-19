@@ -1,7 +1,7 @@
 module Control.Joint.Effects.Maybe where
 
 import Control.Joint.Operators ((<$$>), (<**>))
-import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
+import Control.Joint.Abilities.Completable (Completable (complete))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 import Control.Joint.Abilities.Transformer (Transformer (Schema, embed, build, unite), (:>) (T))
 import Control.Joint.Abilities.Liftable (Liftable (lift))
@@ -27,8 +27,8 @@ instance Applicative u => Applicative (UT Maybe u) where
 instance (Applicative u, Monad u) => Monad (UT Maybe u) where
 	UT x >>= f = UT $ x >>= maybe (pure Nothing) (run . f)
 
-instance Adaptable (Either e) Maybe where
-	adapt = either (const Nothing) Just
+instance Completable (Either e) Maybe where
+	complete = either (const Nothing) Just
 
 type Optional = Liftable Maybe
 

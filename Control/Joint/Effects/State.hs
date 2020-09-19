@@ -3,7 +3,7 @@ module Control.Joint.Effects.State where
 import Control.Applicative (Alternative (empty, (<|>)))
 
 import Control.Joint.Core (type (:.), type (:=))
-import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
+import Control.Joint.Abilities.Completable (Completable (complete))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 import Control.Joint.Abilities.Transformer (Transformer (Schema, embed, build, unite), (:>) (T))
 import Control.Joint.Abilities.Liftable (Liftable (lift))
@@ -52,11 +52,11 @@ instance (Alternative u, Monad u) => Alternative (TUT ((->) s) ((,) s) u) where
 	TUT x <|> TUT y = TUT $ \s -> x s <|> y s
 	empty = TUT $ \_ -> empty
 
-instance Adaptable (Reader e) (State e) where
-	adapt (Reader f) = State (\e -> (e, f e))
+instance Completable (Reader e) (State e) where
+	complete (Reader f) = State (\e -> (e, f e))
 
-instance Adaptable (Writer e) (State e) where
-	adapt (Writer (e, x)) = State (\e -> (e, x))
+instance Completable (Writer e) (State e) where
+	complete (Writer (e, x)) = State (\e -> (e, x))
 
 type Stateful e = Liftable (State e)
 

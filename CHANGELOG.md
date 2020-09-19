@@ -47,3 +47,6 @@
 * Change order of parameters in `TUT` newtype schema
 * Change arity of `Schema` associated type family
 * Add `transformers` dependency
+
+# 0.1.8
+* Rename `Adaptable` class to `Completable` and `adapt` to `complete`
