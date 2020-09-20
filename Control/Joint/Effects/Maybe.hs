@@ -3,7 +3,7 @@ module Control.Joint.Effects.Maybe where
 import Control.Joint.Operators ((<$$>), (<**>))
 import Control.Joint.Abilities.Completable (Completable (complete))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
-import Control.Joint.Abilities.Transformer (Transformer (Schema, embed, build, unite), (:>) (T))
+import Control.Joint.Abilities.Transformer (Transformer (embed, build, unite), Schema, (:>) (T))
 import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
 import Control.Joint.Schemes (UT (UT))
 
@@ -11,8 +11,9 @@ instance Interpreted Maybe where
 	type Primary Maybe a = Maybe a
 	run x = x
 
+type instance Schema Maybe = UT Maybe
+
 instance Transformer Maybe where
-	type Schema Maybe = UT Maybe
 	embed x = T . UT $ Just <$> x
 	build x = T . UT . pure $ x
 	unite = T . UT

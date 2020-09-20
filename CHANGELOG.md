@@ -53,3 +53,4 @@
 * Rename `Liftable` class to `Adaptable` and `lift` to `adapt`
 * Define `MonadTrans` instances for `TU` and `UT` schemes
 * Define `Store` datatype and define `Functor` and `Comonad` instances for it
+* Extract `Schema` associated type family from `Transformer` typeclass

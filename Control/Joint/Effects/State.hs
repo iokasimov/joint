@@ -5,7 +5,7 @@ import Control.Applicative (Alternative (empty, (<|>)))
 import Control.Joint.Core (type (:.), type (:=))
 import Control.Joint.Abilities.Completable (Completable (complete))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
-import Control.Joint.Abilities.Transformer (Transformer (Schema, embed, build, unite), (:>) (T))
+import Control.Joint.Abilities.Transformer (Transformer (embed, build, unite), Schema, (:>) (T))
 import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
 import Control.Joint.Schemes (TUT (TUT))
 import Control.Joint.Effects.Reader (Reader (Reader))
@@ -32,8 +32,9 @@ instance Interpreted (State s) where
 	type Primary (State s) a = (->) s :. (,) s := a
 	run (State x) = x
 
+type instance Schema (State s) = TUT ((->) s) ((,) s)
+
 instance Transformer (State s) where
-	type Schema (State s) = TUT ((->) s) ((,) s)
 	embed x = T . TUT $ \s -> (s,) <$> x
 	build x = T . TUT $ pure <$> run x
 	unite = T . TUT

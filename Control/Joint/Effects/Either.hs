@@ -2,7 +2,7 @@ module Control.Joint.Effects.Either where
 
 import Control.Joint.Operators ((<$$>), (<**>))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
-import Control.Joint.Abilities.Transformer (Transformer (Schema, embed, build, unite), (:>) (T))
+import Control.Joint.Abilities.Transformer (Transformer (embed, build, unite), Schema, (:>) (T))
 import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
 import Control.Joint.Schemes (UT (UT))
 
@@ -10,8 +10,9 @@ instance Interpreted (Either e) where
 	type Primary (Either e) a = Either e a
 	run x = x
 
+type instance Schema (Either e) = UT (Either e)
+
 instance Transformer (Either e) where
-	type Schema (Either e) = UT (Either e)
 	embed x = T . UT $ Right <$> x
 	build x = T . UT . pure $ x
 	unite = T . UT

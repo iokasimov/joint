@@ -1,13 +1,14 @@
-module Control.Joint.Abilities.Transformer (Transformer (..), (:>) (..)) where
+module Control.Joint.Abilities.Transformer where
 
 import Control.Applicative (Alternative (empty, (<|>)))
 
 import Control.Joint.Core (type (~>))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 
+type family Schema (t :: * -> *) = (r :: (* -> *) -> * -> *) | r -> t
+
 class Interpreted t => Transformer t where
 	{-# MINIMAL embed, build, unite #-}
-	type Schema (t :: * -> *) = (r :: (* -> *) -> * -> *) | r -> t
 	embed :: Functor u => u ~> t :> u
 	build :: Applicative u => t ~> t :> u
 	unite :: Primary (Schema t u) a -> (t :> u) a

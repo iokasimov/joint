@@ -2,7 +2,7 @@ module Control.Joint.Abilities.Adaptable where
 
 import Control.Joint.Core (type (~>))
 import Control.Joint.Abilities.Interpreted (Interpreted (run))
-import Control.Joint.Abilities.Transformer (Transformer (Schema, build, embed), (:>) (T, trans))
+import Control.Joint.Abilities.Transformer (Transformer (build, embed), Schema, (:>) (T, trans))
 
 class Adaptable (eff :: * -> *) (schema :: * -> *) where
 	{-# MINIMAL adapt #-}
