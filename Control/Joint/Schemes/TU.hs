@@ -1,5 +1,7 @@
 module Control.Joint.Schemes.TU (TU (..)) where
 
+import "comonad" Control.Comonad (Comonad (extract))
+import "comonad" Control.Comonad.Trans.Class (ComonadTrans (lower))
 import "transformers" Control.Monad.Trans.Class (MonadTrans (lift))
 
 import Control.Joint.Core (type (:.), type (:=))
@@ -13,3 +15,6 @@ instance Interpreted (TU t u) where
 
 instance Monad t => MonadTrans (TU t) where
 	lift = TU . return
+
+instance Comonad t => ComonadTrans (TU t) where
+	lower (TU x) = extract x

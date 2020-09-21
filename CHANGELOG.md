@@ -55,3 +55,4 @@
 * Define `Store` datatype and define `Functor` and `Comonad` instances for it
 * Extract `Schema` associated type family from `Transformer` typeclass
 * Replace `embed` method with `lift` from `MonadTrans` typeclass
+* Define `ComonadTrans` instances for `TU` and `UT` schemes
