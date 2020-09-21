@@ -8,8 +8,7 @@ import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 type family Schema (t :: * -> *) = (r :: (* -> *) -> * -> *) | r -> t
 
 class Interpreted t => Transformer t where
-	{-# MINIMAL embed, build, unite #-}
-	embed :: Functor u => u ~> t :> u
+	{-# MINIMAL build, unite #-}
 	build :: Applicative u => t ~> t :> u
 	unite :: Primary (Schema t u) a -> (t :> u) a
 

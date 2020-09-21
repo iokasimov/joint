@@ -2,7 +2,7 @@ module Control.Joint.Effects.Reader where
 
 import Control.Joint.Operators ((<$$>), (<**>))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
-import Control.Joint.Abilities.Transformer (Transformer (embed, build, unite), Schema, (:>) (T))
+import Control.Joint.Abilities.Transformer (Transformer (build, unite), Schema, (:>) (T))
 import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
 import Control.Joint.Schemes (TU (TU))
 
@@ -25,7 +25,6 @@ instance Interpreted (Reader e) where
 type instance Schema (Reader e) = TU ((->) e)
 
 instance Transformer (Reader e) where
-	embed x = T . TU . const $ x
 	build x = T. TU $ pure <$> run x
 	unite = T . TU
 

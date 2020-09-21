@@ -2,7 +2,7 @@ module Control.Joint.Effects.Writer where
 
 import Control.Joint.Operators ((<$$>), (<**>))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
-import Control.Joint.Abilities.Transformer (Transformer (embed, build, unite), Schema, (:>) (T))
+import Control.Joint.Abilities.Transformer (Transformer (build, unite), Schema, (:>) (T))
 import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
 import Control.Joint.Schemes (UT (UT))
 
@@ -27,7 +27,6 @@ instance Interpreted (Writer e) where
 type instance Schema (Writer e) = UT ((,) e)
 
 instance Monoid e => Transformer (Writer e) where
-	embed x = T . UT $ (,) mempty <$> x
 	build = T . UT . pure . run
 	unite = T . UT
 
