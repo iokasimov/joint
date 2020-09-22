@@ -1,6 +1,7 @@
 module Control.Joint.Abilities.Transformer where
 
-import Control.Applicative (Alternative (empty, (<|>)))
+import "base" Control.Applicative (Alternative (empty, (<|>)))
+import "transformers" Control.Monad.Trans.Class (MonadTrans (lift))
 
 import Control.Joint.Core (type (~>))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
@@ -32,3 +33,6 @@ instance (Transformer t, Monad (Schema t u)) => Monad (t :> u) where
 instance (Interpreted (Schema t u), Transformer t) => Interpreted (t :> u) where
 	type Primary (t :> u) a = Primary (Schema t u) a
 	run (T x) = run x
+
+instance MonadTrans (Schema t) => MonadTrans ((:>) t) where
+	lift = T . lift
