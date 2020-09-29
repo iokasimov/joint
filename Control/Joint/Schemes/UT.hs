@@ -13,7 +13,7 @@ instance Interpreted (UT t u) where
 	type Primary (UT t u) a = u :. t := a
 	run (UT x) = x
 
-instance (forall u . Functor u, Monad t) => MonadTrans (UT t) where
+instance Monad t => MonadTrans (UT t) where
 	lift x = UT $ return <$> x
 
 instance Comonad t => ComonadTrans (UT t) where
