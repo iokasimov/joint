@@ -36,7 +36,7 @@ library
     Control.Joint.Effects.Store
     Control.Joint.Effects.Maybe
     Control.Joint.Effects.Either
-  build-depends: base == 4.*, transformers, comonad, adjunctions
+  build-depends: base == 4.*, transformers, comonad, adjunctions, distributive
   default-language: Haskell2010
   ghc-options: -fno-warn-tabs
   default-extensions:
