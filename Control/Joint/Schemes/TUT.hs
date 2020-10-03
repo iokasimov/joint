@@ -14,5 +14,5 @@ instance Interpreted (TUT t t' u) where
 	run (TUT x) = x
 
 -- TODO: try to replace Traversable on Monad here
-instance (Adjunction t' t, Distributive t') => MonadTrans (TUT t t') where
+instance (Adjunction t' t, Distributive t) => MonadTrans (TUT t t') where
 	lift x = TUT $ distribute $ (leftAdjunct id <$> x)
