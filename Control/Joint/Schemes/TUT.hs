@@ -1,7 +1,7 @@
-module Control.Joint.Schemes.TUT (TUT (..)) where
+module Control.Joint.Schemes.TUT where
 
-import "adjunctions" Data.Functor.Adjunction (Adjunction (leftAdjunct, rightAdjunct))
-import "distributive" Data.Distributive (Distributive (distribute))
+import "adjunctions" Data.Functor.Adjunction (Adjunction (leftAdjunct))
+import "distributive" Data.Distributive (Distributive (collect))
 import "transformers" Control.Monad.Trans.Class (MonadTrans (lift))
 
 import Control.Joint.Core (type (:.), type (:=))
@@ -13,6 +13,5 @@ instance Interpreted (TUT t t' u) where
 	type Primary (TUT t t' u) a = t :. u :. t' := a
 	run (TUT x) = x
 
--- TODO: try to replace Traversable on Monad here
 instance (Adjunction t' t, Distributive t) => MonadTrans (TUT t t') where
-	lift x = TUT $ distribute $ (leftAdjunct id <$> x)
+	lift = TUT . collect (leftAdjunct id)

@@ -1,4 +1,4 @@
-module Control.Joint.Schemes.UT (UT (..)) where
+module Control.Joint.Schemes.UT where
 
 import "comonad" Control.Comonad (Comonad (extract))
 import "comonad" Control.Comonad.Trans.Class (ComonadTrans (lower))
