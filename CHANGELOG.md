@@ -56,3 +56,6 @@
 * Extract `Schema` associated type family from `Transformer` typeclass
 * Replace `embed` method with `lift` from `MonadTrans` typeclass
 * Define `ComonadTrans` instances for `TU` and `UT` schemes
+
+# 0.1.9
+* Define `pos`, `seek`, `peek` and `retrofit` methods for `Store`

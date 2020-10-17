@@ -18,3 +18,15 @@ instance Comonad (Store s) where
 instance Interpreted (Store s) where
 	type Primary (Store s) a = (,) s :. (->) s := a
 	run (Store x) = x
+
+pos :: Store s a -> s
+pos (Store (s, _)) = s
+
+seek :: s -> Store s a -> Store s a
+seek s (Store (_, f)) = Store (s, f)
+
+peek :: s -> Store s a -> a
+peek s (Store (_, f)) = f s
+
+retrofit :: (s -> s) -> Store s a -> Store s a
+retrofit g (Store (s, f)) = Store (g s, f)
