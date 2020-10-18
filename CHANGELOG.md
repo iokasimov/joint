@@ -60,3 +60,4 @@
 # 0.1.9
 * Define `pos`, `seek`, `peek` and `retrofit` methods for `Store`
 * Define `Lens`, `view`, `set` and `over` in `Store` module
+* Define `Concepts` umbrella module with `Lens` submodule

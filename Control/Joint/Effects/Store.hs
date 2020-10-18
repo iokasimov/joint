@@ -30,14 +30,3 @@ peek s (Store (_, f)) = f s
 
 retrofit :: (s -> s) -> Store s a -> Store s a
 retrofit g (Store (s, f)) = Store (g s, f)
-
-type Lens s t = s -> Store t s
-
-view :: Lens s t -> s -> t
-view lens = pos . lens
-
-set :: Lens s t -> t -> s -> s
-set lens new = peek new . lens
-
-over :: Lens s t -> (t -> t) -> s -> s
-over lens f = extract . retrofit f . lens
