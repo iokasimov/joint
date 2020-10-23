@@ -3,6 +3,7 @@ module Control.Joint.Effects.State where
 import Control.Applicative (Alternative (empty, (<|>)))
 
 import Control.Joint.Core (type (:.), type (:=))
+import Control.Joint.Operators ((<$$>))
 import Control.Joint.Abilities.Completable (Completable (complete))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 import Control.Joint.Abilities.Transformer (Transformer (build, unite), Schema, (:>) (T))
@@ -39,11 +40,11 @@ instance Transformer (State s) where
 	unite = T . TUT
 
 instance Functor u => Functor (TUT ((->) s) ((,) s)  u) where
-	fmap f (TUT x) = TUT $ \old -> (fmap . fmap) f $ x old
+	fmap f (TUT x) = TUT $ \old -> f <$$> x old
 
 instance Monad u => Applicative (TUT ((->) s) ((,) s) u) where
 	pure x = TUT $ \s -> pure (s, x)
-	TUT f <*> TUT x = TUT $ \old -> f old >>= \(new, g) -> (fmap . fmap) g $ x new
+	TUT f <*> TUT x = TUT $ \old -> f old >>= \(new, g) -> g <$$> x new
 
 instance Monad u => Monad (TUT ((->) s) ((,) s) u) where
 	TUT x >>= f = TUT $ \old -> x old >>= \(new, y) -> ($ new) . run . f $ y
@@ -56,7 +57,7 @@ instance Completable (Reader e) (State e) where
 	complete (Reader f) = State (\e -> (e, f e))
 
 instance Completable (Writer e) (State e) where
-	complete (Writer (e, x)) = State (\e -> (e, x))
+	complete (Writer (e, x)) = State $ \e -> (e, x)
 
 type Stateful e = Adaptable (State e)
 
