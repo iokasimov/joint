@@ -62,3 +62,4 @@
 * Define `Lens`, `view`, `set` and `over` in `Store` module
 * Define `Concepts` umbrella module with `Lens` submodule
 * Define `zoom` method in `Concepts.Lens` module
+* Define `_1` and `_2` lenses for tuples
