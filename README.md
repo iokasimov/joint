@@ -4,7 +4,8 @@
 
 ## Overview
 
-`joint` let you type expressions by effects that they produce. No free/freer monad, no GADTs and other fancy stuff - all you need is a functor composition. If you want to be able to use your on effect in this library you need to pick a `joint schema` and write several instances (`Functor`/`Applicative`/`Monad`).
+`joint` let you type expressions by effects that they produce. No free/freer monad, no GADTs and other fancy stuff - all you need is a functor composition. If you want to be able to use your on effect in this library you need to pick a `joint schema` and write several instances (`Functor`/`Applicative`/`Monad`). For better understanding it's recommend to read this explanation series: [part 1](https://iokasimov.github.io/posts/2019/11/joint), [part 2](https://iokasimov.github.io/posts/2020/02/joint).
+
 
 ## Simple real world example
 
