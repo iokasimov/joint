@@ -8,7 +8,7 @@ import Control.Joint.Abilities.Completable (Completable (complete))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 import Control.Joint.Abilities.Transformer (Transformer (build, unite), Schema, (:>) (T))
 import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
-import Control.Joint.Schemes (TUT (TUT))
+import Control.Joint.Schemes (TUT (TUT), type (<:<.>:>))
 import Control.Joint.Effects.Reader (Reader (Reader))
 import Control.Joint.Effects.Writer (Writer (Writer))
 
@@ -33,23 +33,23 @@ instance Interpreted (State s) where
 	type Primary (State s) a = (->) s :. (,) s := a
 	run (State x) = x
 
-type instance Schema (State s) = TUT ((->) s) ((,) s)
+type instance Schema (State s) = (->) s <:<.>:> (,) s
 
 instance Transformer (State s) where
 	build x = T . TUT $ pure <$> run x
 	unite = T . TUT
 
-instance Functor u => Functor (TUT ((->) s) ((,) s)  u) where
+instance Functor u => Functor ((->) s <:<.>:> (,) s := u) where
 	fmap f (TUT x) = TUT $ \old -> f <$$> x old
 
-instance Monad u => Applicative (TUT ((->) s) ((,) s) u) where
+instance Monad u => Applicative ((->) s <:<.>:> (,) s := u) where
 	pure x = TUT $ \s -> pure (s, x)
 	TUT f <*> TUT x = TUT $ \old -> f old >>= \(new, g) -> g <$$> x new
 
-instance Monad u => Monad (TUT ((->) s) ((,) s) u) where
+instance Monad u => Monad ((->) s <:<.>:> (,) s := u) where
 	TUT x >>= f = TUT $ \old -> x old >>= \(new, y) -> ($ new) . run . f $ y
 
-instance (Alternative u, Monad u) => Alternative (TUT ((->) s) ((,) s) u) where
+instance (Alternative u, Monad u) => Alternative ((->) s <:<.>:> (,) s := u) where
 	TUT x <|> TUT y = TUT $ \s -> x s <|> y s
 	empty = TUT $ \_ -> empty
 

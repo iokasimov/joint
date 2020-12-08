@@ -50,6 +50,7 @@ library
     LiberalTypeSynonyms
     MultiParamTypeClasses
     PackageImports
+    PolyKinds
     RankNTypes
     TupleSections
     TypeFamilies

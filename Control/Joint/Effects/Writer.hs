@@ -4,7 +4,7 @@ import Control.Joint.Operators ((<$$>), (<**>))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 import Control.Joint.Abilities.Transformer (Transformer (build, unite), Schema, (:>) (T))
 import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
-import Control.Joint.Schemes (UT (UT))
+import Control.Joint.Schemes (UT (UT), type (<.:>) )
 
 newtype Writer e a = Writer (e, a)
 
@@ -30,14 +30,14 @@ instance Monoid e => Transformer (Writer e) where
 	build = T . UT . pure . run
 	unite = T . UT
 
-instance Functor u => Functor (UT ((,) e) u) where
+instance Functor u => Functor ((,) e <.:> u) where
 	fmap f (UT x) = UT $ f <$$> x
 
-instance (Monoid e, Applicative u) => Applicative (UT ((,) e) u) where
+instance (Monoid e, Applicative u) => Applicative ((,) e <.:> u) where
 	pure = UT . pure . pure
 	UT f <*> UT x = UT $ f <**> x
 
-instance (Monoid e, Applicative u, Monad u) => Monad (UT ((,) e) u) where
+instance (Monoid e, Applicative u, Monad u) => Monad ((,) e <.:> u) where
 	UT x >>= f = UT $ x >>= \(acc, v) -> (\(acc', y) -> (acc <> acc', y)) <$> run (f v)
 
 type Accumulated e t = Adaptable (Writer e) t

@@ -9,6 +9,8 @@ import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 
 newtype UT t u a = UT (u :. t := a)
 
+type (<.:>) = UT
+
 instance Interpreted (UT t u) where
 	type Primary (UT t u) a = u :. t := a
 	run (UT x) = x

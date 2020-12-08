@@ -9,6 +9,8 @@ import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 
 newtype TUT t t' u a = TUT (t :. u :. t' := a)
 
+type (<:<.>:>) = TUT
+
 instance Interpreted (TUT t t' u) where
 	type Primary (TUT t t' u) a = t :. u :. t' := a
 	run (TUT x) = x

@@ -5,7 +5,7 @@ import Control.Joint.Abilities.Completable (Completable (complete))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 import Control.Joint.Abilities.Transformer (Transformer (build, unite), Schema, (:>) (T))
 import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
-import Control.Joint.Schemes (UT (UT))
+import Control.Joint.Schemes (UT (UT), type (<.:>))
 
 instance Interpreted Maybe where
 	type Primary Maybe a = Maybe a
@@ -17,14 +17,14 @@ instance Transformer Maybe where
 	build x = T . UT . pure $ x
 	unite = T . UT
 
-instance Functor u => Functor (UT Maybe u) where
+instance Functor u => Functor (Maybe <.:> u) where
 	fmap f (UT x) = UT $ f <$$> x
 
-instance Applicative u => Applicative (UT Maybe u) where
+instance Applicative u => Applicative (Maybe <.:> u) where
 	pure = UT . pure . pure
 	UT f <*> UT x = UT $ f <**> x
 
-instance (Applicative u, Monad u) => Monad (UT Maybe u) where
+instance (Applicative u, Monad u) => Monad (Maybe <.:> u) where
 	UT x >>= f = UT $ x >>= maybe (pure Nothing) (run . f)
 
 instance Completable (Either e) Maybe where

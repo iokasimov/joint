@@ -4,7 +4,7 @@ import Control.Joint.Operators ((<$$>), (<**>))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 import Control.Joint.Abilities.Transformer (Transformer (build, unite), Schema, (:>) (T))
 import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
-import Control.Joint.Schemes (TU (TU))
+import Control.Joint.Schemes (TU (TU), type (<:.>))
 
 newtype Reader e a = Reader (e -> a)
 
@@ -28,14 +28,14 @@ instance Transformer (Reader e) where
 	build x = T. TU $ pure <$> run x
 	unite = T . TU
 
-instance Functor u => Functor (TU ((->) e) u) where
+instance Functor u => Functor ((->) e <:.> u) where
 	fmap f (TU x) = TU $ f <$$> x
 
-instance Applicative u => Applicative (TU ((->) e) u) where
+instance Applicative u => Applicative ((->) e <:.> u) where
 	pure = TU . pure . pure
 	TU f <*> TU x = TU $ f <**> x
 
-instance (Applicative u, Monad u) => Monad (TU ((->) e) u) where
+instance (Applicative u, Monad u) => Monad ((->) e <:.> u) where
 	TU x >>= f = TU $ \e -> x e >>= ($ e) . run . f
 
 type Configured e = Adaptable (Reader e)

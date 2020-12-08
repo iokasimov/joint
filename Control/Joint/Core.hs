@@ -1,8 +1,7 @@
 module Control.Joint.Core where
 
-infixr 2 :.
-infixr 1 :=
-infixr 0 ~>
+infixr 0 :=, ~>
+infixr 1 :.
 
 -- | Functor composition
 type (:.) t u a = t (u a)
