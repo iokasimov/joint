@@ -1,5 +1,7 @@
 module Control.Joint.Effects.Writer where
 
+import Control.Applicative (Alternative (empty, (<|>)))
+
 import Control.Joint.Operators ((<$$>), (<**>))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 import Control.Joint.Abilities.Transformer (Transformer (build, unite), Schema, (:>) (T))
@@ -36,6 +38,10 @@ instance Functor u => Functor ((,) e <.:> u) where
 instance (Monoid e, Applicative u) => Applicative ((,) e <.:> u) where
 	pure = UT . pure . pure
 	UT f <*> UT x = UT $ f <**> x
+
+instance (Monoid e, Alternative u) => Alternative ((,) e <.:> u) where
+	x <|> y = UT $ run x <|> run y
+	empty = UT empty
 
 instance (Monoid e, Applicative u, Monad u) => Monad ((,) e <.:> u) where
 	UT x >>= f = UT $ x >>= \(acc, v) -> (\(acc', y) -> (acc <> acc', y)) <$> run (f v)
