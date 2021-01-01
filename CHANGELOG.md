@@ -64,3 +64,5 @@
 * Define `zoom` method in `Concepts.Lens` module
 * Define `_1` and `_2` lenses for tuples
 * Define `<:.>`, `<.:>` and `<:<.>:>` type operators for `TU`, `UT` and `TUT`
+
+# 0.2.0
