@@ -1,6 +1,6 @@
 module Control.Joint.Effects.Reader where
 
-import Control.Joint.Operators ((<$$>), (<**>))
+-- import Control.Joint.Operators ((<$$>), (<**>))
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 import Control.Joint.Abilities.Transformer (Transformer (build, unite), Schema, (:>) (T))
 import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
@@ -27,16 +27,6 @@ type instance Schema (Reader e) = TU ((->) e)
 instance Transformer (Reader e) where
 	build x = T. TU $ pure <$> run x
 	unite = T . TU
-
-instance Functor u => Functor ((->) e <:.> u) where
-	fmap f (TU x) = TU $ f <$$> x
-
-instance Applicative u => Applicative ((->) e <:.> u) where
-	pure = TU . pure . pure
-	TU f <*> TU x = TU $ f <**> x
-
-instance (Applicative u, Monad u) => Monad ((->) e <:.> u) where
-	TU x >>= f = TU $ \e -> x e >>= ($ e) . run . f
 
 type Configured e = Adaptable (Reader e)
 
