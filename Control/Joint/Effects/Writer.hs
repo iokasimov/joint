@@ -32,18 +32,7 @@ instance Monoid e => Transformer (Writer e) where
 	build = T . UT . pure . run
 	unite = T . UT
 
-instance Functor u => Functor ((,) e <.:> u) where
-	fmap f (UT x) = UT $ f <$$> x
-
-instance (Monoid e, Applicative u) => Applicative ((,) e <.:> u) where
-	pure = UT . pure . pure
-	UT f <*> UT x = UT $ f <**> x
-
-instance (Monoid e, Alternative u) => Alternative ((,) e <.:> u) where
-	x <|> y = UT $ run x <|> run y
-	empty = UT empty
-
-instance (Monoid e, Applicative u, Monad u) => Monad ((,) e <.:> u) where
+instance {-# OVERLAPS #-} (Monoid e, Applicative u, Monad u) => Monad ((,) e <.:> u) where
 	UT x >>= f = UT $ x >>= \(acc, v) -> (\(acc', y) -> (acc <> acc', y)) <$> run (f v)
 
 type Accumulated e t = Adaptable (Writer e) t

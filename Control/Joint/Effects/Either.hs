@@ -16,16 +16,6 @@ instance Transformer (Either e) where
 	build x = T . UT . pure $ x
 	unite = T . UT
 
-instance Functor u => Functor (Either e <.:> u) where
-	fmap f (UT x) = UT $ f <$$> x
-
-instance Applicative u => Applicative (Either e <.:> u) where
-	pure = UT . pure . pure
-	UT f <*> UT x = UT $ f <**> x
-
-instance (Applicative u, Monad u) => Monad (Either e <.:> u) where
-	UT x >>= f = UT $ x >>= either (pure . Left) (run . f)
-
 type Failable e = Adaptable (Either e)
 
 failure :: Failable e t => e -> t a
