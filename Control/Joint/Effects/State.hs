@@ -1,6 +1,6 @@
 module Control.Joint.Effects.State where
 
-import Control.Applicative (Alternative (empty, (<|>)))
+import "base" Control.Applicative (Alternative (empty, (<|>)))
 
 import Control.Joint.Core (type (:.), type (:=))
 import Control.Joint.Operators ((<$$>))

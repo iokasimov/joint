@@ -1,6 +1,7 @@
 module Control.Joint.Effects.Reader where
 
--- import Control.Joint.Operators ((<$$>), (<**>))
+import "distributive" Data.Distributive (Distributive (distribute))
+
 import Control.Joint.Abilities.Interpreted (Interpreted (Primary, run))
 import Control.Joint.Abilities.Transformer (Transformer (build, unite), Schema, (:>) (T))
 import Control.Joint.Abilities.Adaptable (Adaptable (adapt))
@@ -17,6 +18,9 @@ instance Applicative (Reader e) where
 
 instance Monad (Reader e) where
 	Reader g >>= f = Reader $ \e -> run (f (g e)) e
+
+instance Distributive (Reader e) where
+	distribute x = Reader $ \e -> ($ e) . run <$> x
 
 instance Interpreted (Reader e) where
 	type Primary (Reader e) a = (->) e a

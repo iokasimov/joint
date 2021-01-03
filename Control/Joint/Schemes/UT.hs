@@ -33,7 +33,6 @@ instance (Applicative t, Alternative u) => Alternative (t <.:> u) where
 instance (Traversable t, Monad t, Applicative u, Monad u) => Monad (t <.:> u) where
 	UT x >>= f = UT $ x >>= \i -> join <$> for i (run . f)
 
-
 instance Monad t => MonadTrans (UT t) where
 	lift x = UT $ return <$> x
 

@@ -30,6 +30,7 @@ instance (Adjunction t' t, Applicative t, Functor t', Monad u, Alternative u) =>
 	empty = TUT $ pure empty
 
 instance (Adjunction t' t, Monad u) => Monad (t <:<.>:> t' := u) where
+	return = TUT . (leftAdjunct pure)
 	x >>= f = TUT $ (>>= rightAdjunct (run . f)) <$> run x
 
 instance (Adjunction t' t, Comonad u) => Comonad (t' <:<.>:> t := u) where
