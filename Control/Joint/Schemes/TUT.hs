@@ -3,6 +3,7 @@ module Control.Joint.Schemes.TUT where
 import "adjunctions" Data.Functor.Adjunction (Adjunction (leftAdjunct, rightAdjunct))
 import "base" Control.Applicative (Alternative (empty, (<|>)))
 import "comonad" Control.Comonad (Comonad (extract, extend), (=>>))
+import "comonad" Control.Comonad.Trans.Class (ComonadTrans (lower))
 import "distributive" Data.Distributive (Distributive (collect))
 import "transformers" Control.Monad.Trans.Class (MonadTrans (lift))
 
@@ -39,3 +40,6 @@ instance (Adjunction t' t, Comonad u) => Comonad (t' <:<.>:> t := u) where
 
 instance (Adjunction t' t, Distributive t) => MonadTrans (TUT t t') where
 	lift = TUT . collect (leftAdjunct id)
+
+instance (Adjunction t' t, Applicative t, forall u . Traversable u) => ComonadTrans (TUT t' t) where
+	lower = rightAdjunct (traverse id) . run
