@@ -1,6 +1,6 @@
 module Control.Joint.Effects.State where
 
-import "adjunctions" Data.Functor.Adjunction (Adjunction (unit))
+import "adjunctions" Data.Functor.Adjunction (Adjunction (unit, counit))
 import "base" Control.Applicative (Alternative (empty, (<|>)))
 
 import Control.Joint.Core (type (:.), type (:=))
@@ -19,7 +19,7 @@ statefully :: s -> State s a -> (s, a)
 statefully initial (State x) = x initial
 
 instance Functor (State s) where
-	fmap f (State x) = State $ \old -> f <$> x old
+	fmap f (State x) = State $ f <$$> x
 
 instance Applicative (State s) where
 	pure = State . unit
@@ -28,8 +28,7 @@ instance Applicative (State s) where
 
 instance Monad (State s) where
 	return = State . unit
-	State x >>= f = State $ \old ->
-		uncurry statefully $ f <$> x old
+	State x >>= f = State $ counit <$> ((run . f) <$$> x)
 
 instance Interpreted (State s) where
 	type Primary (State s) a = (->) s :. (,) s := a

@@ -2,6 +2,8 @@ module Control.Joint.Operators where
 
 import Control.Joint.Core ((:.), (:=))
 
+-- TODO: fix precedence for these operators
+
 (<$$>) :: (Functor t, Functor u) => (a -> b) -> t :. u := a -> t :. u := b
 (<$$>) = (<$>) . (<$>)
 
