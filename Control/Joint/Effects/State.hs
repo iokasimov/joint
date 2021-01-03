@@ -1,5 +1,6 @@
 module Control.Joint.Effects.State where
 
+import "adjunctions" Data.Functor.Adjunction (Adjunction (unit))
 import "base" Control.Applicative (Alternative (empty, (<|>)))
 
 import Control.Joint.Core (type (:.), type (:=))
@@ -21,11 +22,12 @@ instance Functor (State s) where
 	fmap f (State x) = State $ \old -> f <$> x old
 
 instance Applicative (State s) where
-	pure x = State $ \s -> (s, x)
+	pure = State . unit
 	State f <*> State x = State $ \old ->
 		let (new, g) = f old in g <$> x new
 
 instance Monad (State s) where
+	return = State . unit
 	State x >>= f = State $ \old ->
 		uncurry statefully $ f <$> x old
 
