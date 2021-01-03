@@ -1,6 +1,6 @@
 module Control.Joint.Effects.State where
 
-import "adjunctions" Data.Functor.Adjunction (Adjunction (unit, counit))
+import "adjunctions" Data.Functor.Adjunction (Adjunction (unit, counit, rightAdjunct))
 import "base" Control.Applicative (Alternative (empty, (<|>)))
 
 import Control.Joint.Core (type (:.), type (:=))
@@ -28,7 +28,7 @@ instance Applicative (State s) where
 
 instance Monad (State s) where
 	return = State . unit
-	State x >>= f = State $ counit <$> ((run . f) <$$> x)
+	State x >>= f = State $ rightAdjunct (run . f) <$> x
 
 instance Interpreted (State s) where
 	type Primary (State s) a = (->) s :. (,) s := a
