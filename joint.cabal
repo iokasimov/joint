@@ -36,6 +36,7 @@ library
     Control.Joint.Effects.Store
     Control.Joint.Effects.Maybe
     Control.Joint.Effects.Either
+    Control.Joint.Effects.List
     Control.Joint.Concepts
     Control.Joint.Concepts.Lens
   build-depends: base == 4.*, transformers, comonad, adjunctions, distributive

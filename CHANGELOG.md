@@ -66,3 +66,4 @@
 * Define `<:.>`, `<.:>` and `<:<.>:>` type operators for `TU`, `UT` and `TUT`
 
 # 0.2.0
+* Define `Interpreted`, `Schema` and `Transformer` instances for `[]`
